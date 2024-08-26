@@ -54,6 +54,9 @@
     "topics": {
       "hello": {
         "description": "Commands to say hello."
+      },
+      "data-seeding": {
+        "description": "Migrate real data, generate fake data using GenAI, or deploy data files to target orgs"
       }
     },
     "flexibleTaxonomy": true
