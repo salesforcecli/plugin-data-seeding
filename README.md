@@ -87,11 +87,11 @@ git clone git@github.com:salesforcecli/plugin-data-seeding
 yarn && yarn build
 ```
 
-To use your plugin, run using the local `./bin/dev` or `./bin/dev.cmd` file.
+To use your plugin, run using the local `./bin/dev.js` or `./bin/dev.cmd` file.
 
 ```bash
 # Run using local run file.
-./bin/dev hello world
+./bin/dev.js data-seeding generate
 ```
 
 There should be no differences when running via the Salesforce CLI or using the local run file. However, it can be useful to link the plugin to do some additional testing or run your commands from anywhere on your machine.
@@ -107,43 +107,37 @@ sf plugins
 
 <!-- commands -->
 
-- [`sf hello world`](#sf-hello-world)
+- [`sf data-seeding generate`](#sf-data-seeding-generate)
 
-## `sf hello world`
+## `sf data-seeding generate`
 
-Say hello.
+Summary of a command.
 
 ```
 USAGE
-  $ sf hello world [--json] [--flags-dir <value>] [-n <value>]
+  $ sf data-seeding generate [--json] [--flags-dir <value>] [-n <value>]
 
 FLAGS
-  -n, --name=<value>  [default: World] The name of the person you'd like to say hello to.
+  -n, --name=<value>  Description of a flag.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Say hello.
+  Summary of a command.
 
-  Say hello either to the world or someone you know.
+  More information about a command. Don't repeat the summary.
 
 EXAMPLES
-  Say hello to the world:
-
-    $ sf hello world
-
-  Say hello to someone you know:
-
-    $ sf hello world --name Astro
+  $ sf data-seeding generate
 
 FLAG DESCRIPTIONS
-  -n, --name=<value>  The name of the person you'd like to say hello to.
+  -n, --name=<value>  Description of a flag.
 
-    This person can be anyone in the world!
+    More information about a flag. Don't repeat the summary.
 ```
 
-_See code: [src/commands/hello/world.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.0/src/commands/hello/world.ts)_
+_See code: [src/commands/data-seeding/generate.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.0/src/commands/data-seeding/generate.ts)_
 
 <!-- commandsstop -->
