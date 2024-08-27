@@ -7,6 +7,7 @@
 
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages } from '@salesforce/core';
+import { initiateDataSeed } from '../../utils/api.js'
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.generate');
@@ -21,16 +22,16 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
   public static readonly examples = messages.getMessages('examples');
 
   public static readonly flags = {
-    'target-org': Flags.requiredOrg({
-      summary: messages.getMessage('flags.target-org.summary'),
-      char: 'o',
-      required: true,
-    }),
-    'source-org': Flags.requiredOrg({
-      summary: messages.getMessage('flags.source-org.summary'),
-      char: 's',
-      required: true,
-    }),
+    // 'target-org': Flags.requiredOrg({
+    //   summary: messages.getMessage('flags.target-org.summary'),
+    //   char: 'o',
+    //   required: true,
+    // }),
+    // 'source-org': Flags.requiredOrg({
+    //   summary: messages.getMessage('flags.source-org.summary'),
+    //   char: 's',
+    //   required: true,
+    // }),
     'config-file': Flags.file({
       summary: messages.getMessage('flags.config-file.summary'),
       char: 'f',
@@ -53,10 +54,12 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
   public async run(): Promise<DataSeedingGenerateResult> {
     const { flags } = await this.parse(DataSeedingGenerate);
+    const { 'config-file': config } = flags;
 
-    console.log(flags['target-org']);
+    const response = await initiateDataSeed(config);
 
-    this.log('hello from src/commands/data-seeding/generate.ts');
+    console.log(response); // eslint-disable-line no-console
+
     return {
       path: 'src/commands/data-seeding/generate.ts',
     };
