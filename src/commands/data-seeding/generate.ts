@@ -21,19 +21,42 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
   public static readonly examples = messages.getMessages('examples');
 
   public static readonly flags = {
-    name: Flags.string({
-      summary: messages.getMessage('flags.name.summary'),
-      description: messages.getMessage('flags.name.description'),
-      char: 'n',
-      required: false,
+    'target-org': Flags.requiredOrg({
+      summary: messages.getMessage('flags.target-org.summary'),
+      char: 'o',
+      required: true,
+    }),
+    'source-org': Flags.requiredOrg({
+      summary: messages.getMessage('flags.source-org.summary'),
+      char: 's',
+      required: true,
+    }),
+    'config-file': Flags.file({
+      summary: messages.getMessage('flags.config-file.summary'),
+      char: 'f',
+      required: true,
+      exists: true,
+    }),
+    wait: Flags.duration({
+      summary: messages.getMessage('flags.wait.summary'),
+      char: 'w',
+      unit: 'minutes',
+      defaultValue: 33,
+      min: 1,
+      exclusive: ['async'],
+    }),
+    async: Flags.boolean({
+      summary: messages.getMessage('flags.async.summary'),
+      exclusive: ['wait'],
     }),
   };
 
   public async run(): Promise<DataSeedingGenerateResult> {
     const { flags } = await this.parse(DataSeedingGenerate);
 
-    const name = flags.name ?? 'world';
-    this.log(`hello ${name} from src/commands/data-seeding/generate.ts`);
+    console.log(flags['target-org']);
+
+    this.log('hello from src/commands/data-seeding/generate.ts');
     return {
       path: 'src/commands/data-seeding/generate.ts',
     };
