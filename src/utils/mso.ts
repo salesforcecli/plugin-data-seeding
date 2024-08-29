@@ -5,7 +5,7 @@
  * For full license text, see LICENSE.txt file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
 
-import { MultiStageOutput } from '@oclif/multi-stage-output';
+import { MultiStageOutput, MultiStageOutputOptions } from '@oclif/multi-stage-output';
 import { StandardColors } from '@salesforce/sf-plugins-core';
 
 type SeedGenerateMsoData = {
@@ -17,7 +17,7 @@ type SeedGenerateMsoData = {
   status?: string;
 };
 
-export const getSeedGenerateMso = (jsonEnabled: boolean = false) => new MultiStageOutput<SeedGenerateMsoData>({
+export const getSeedGenerateMso = (overrides: Partial<MultiStageOutputOptions<SeedGenerateMsoData>> = {}) => new MultiStageOutput({
   preStagesBlock: [
     {
       get: (data) => data?.jobId,
@@ -65,7 +65,7 @@ export const getSeedGenerateMso = (jsonEnabled: boolean = false) => new MultiSta
       label: 'End Time',
     }
   ],
-  jsonEnabled,
+  jsonEnabled: false,
   stages: [
     'Querying source org',
     'Data generation',
@@ -73,4 +73,5 @@ export const getSeedGenerateMso = (jsonEnabled: boolean = false) => new MultiSta
     'Pipeline Finished',
   ],
   title: 'Data Seed Generation',
+  ...overrides,
 });

@@ -76,10 +76,10 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
     // TODO: Cache the jobId so that it can be used by the `--use-most-recent` flag
 
-    const mso = getSeedGenerateMso(this.jsonEnabled());
-    mso.updateData({ jobId, sourceOrg, targetOrg });
-
     if (wait && !async) {
+      const mso = getSeedGenerateMso({ jsonEnabled: this.jsonEnabled() });
+      mso.updateData({ jobId, sourceOrg, targetOrg });
+
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
           const response = await pollSeedStatus(jobId);
@@ -140,9 +140,18 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
     } else {
       const response = await pollSeedStatus(jobId);
 
+      const mso = getSeedGenerateMso({
+        jsonEnabled: this.jsonEnabled(),
+        showElapsedTime: false,
+        showStageTime: false
+      });
+
       mso.goto(response.step);
 
       mso.updateData({
+        jobId,
+        sourceOrg,
+        targetOrg,
         startTime: response.execution_start_time,
         status: 'Initiated'
       })
