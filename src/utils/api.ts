@@ -9,14 +9,25 @@ import fs from 'node:fs';
 import got from 'got';
 import { CookieJar } from 'tough-cookie';
 import FormData from 'form-data';
-import { SfError } from '@salesforce/core';
+import { SfError, Logger } from '@salesforce/core';
 
 export type SeedResponse = {
   'request_id': string;
 }
 
-const csrfUrl = process.env.SF_DATA_SEEDING_CSRF_URL ?? 'https://data-seed-scratchpad5.sfdc-3vx9f4.svc.sfdcfc.net/get-csrf-token';
-const seedUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-scratchpad5.sfdc-3vx9f4.svc.sfdcfc.net/data-seed';
+export type PollSeedResponse = {
+  execution_end_time: string;
+  execution_start_time: string;
+  log_text: string;
+  request_id: string;
+  status: string;
+  step: string;
+}
+
+const baseUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-scratchpad5.sfdc-3vx9f4.svc.sfdcfc.net';
+const csrfUrl = `${baseUrl}/get-csrf-token`;
+const seedUrl = `${baseUrl}/data-seed`;
+const pollUrl = `${baseUrl}/status`;
 
 export const getCookieJar = async (): Promise<CookieJar> => {
   const cookieJar = new CookieJar();
@@ -39,6 +50,7 @@ export const initiateDataSeed = async (config: string): Promise<SeedResponse> =>
   form.append('config_file', fs.createReadStream(config));
   form.append('credentials_file', fs.createReadStream('ignore/credentials.txt'));
 
+  // NOTE: This could be updated to use .json() instead of JSON.parse once the Error response is changed to be JSON
   const response = await got.post(seedUrl, {
     throwHttpErrors: false,
     cookieJar,
@@ -54,4 +66,14 @@ export const initiateDataSeed = async (config: string): Promise<SeedResponse> =>
   }
 
   return JSON.parse(response.body);
+}
+
+export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {
+  const logger = await Logger.child('PollSeedStatus');
+  const body: PollSeedResponse = await got.get(`${pollUrl}/${jobId}`).json();
+
+  if (!body) throw new SfError('Polling endpoint failed to return a response');
+  logger.debug(body);
+
+  return body;
 }
