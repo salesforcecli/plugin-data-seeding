@@ -12,8 +12,8 @@ import FormData from 'form-data';
 import { SfError, Logger } from '@salesforce/core';
 
 export type SeedResponse = {
-  'request_id': string;
-}
+  request_id: string;
+};
 
 export type PollSeedResponse = {
   execution_end_time: string;
@@ -22,7 +22,7 @@ export type PollSeedResponse = {
   request_id: string;
   status: string;
   step: string;
-}
+};
 
 const baseUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-scratchpad5.sfdc-3vx9f4.svc.sfdcfc.net';
 const csrfUrl = `${baseUrl}/get-csrf-token`;
@@ -33,17 +33,17 @@ export const getCookieJar = async (): Promise<CookieJar> => {
   const cookieJar = new CookieJar();
   await got(csrfUrl, { cookieJar });
   return cookieJar;
-}
+};
 
 export const getCsrfToken = (cookieJar: CookieJar): string => {
   const csrfToken = cookieJar.getCookiesSync(csrfUrl).find((cookie) => cookie.key === 'csrf_token')?.value;
-  if (!csrfToken) throw new SfError('Failed to obtain CSRF token')
+  if (!csrfToken) throw new SfError('Failed to obtain CSRF token');
 
   return csrfToken;
-}
+};
 
 export const initiateDataSeed = async (config: string): Promise<SeedResponse> => {
-  const cookieJar = await getCookieJar()
+  const cookieJar = await getCookieJar();
   const csrf = getCsrfToken(cookieJar);
 
   const form = new FormData();
@@ -66,14 +66,21 @@ export const initiateDataSeed = async (config: string): Promise<SeedResponse> =>
   }
 
   return JSON.parse(response.body);
-}
+};
 
 export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {
   const logger = await Logger.child('PollSeedStatus');
-  const body: PollSeedResponse = await got.get(`${pollUrl}/${jobId}`).json();
 
-  if (!body) throw new SfError('Polling endpoint failed to return a response');
-  logger.debug(body);
+  // NOTE: This could be updated to use .json() instead of JSON.parse once the Error response is changed to be JSON
+  const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false });
 
-  return body;
-}
+  if (response.statusCode !== 200) {
+    // This endpoint returns debugger output... dont print body
+    throw new SfError(`Failed to poll data seeding status for ${jobId}`);
+  }
+
+  const json = JSON.parse(response.body);
+  logger.debug(json);
+
+  return json;
+};

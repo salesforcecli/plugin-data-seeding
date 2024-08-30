@@ -8,21 +8,12 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages, PollingClient, SfError, StatusResult } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
-import { initiateDataSeed, pollSeedStatus, PollSeedResponse } from '../../utils/api.js'
-import { getSeedGenerateMso } from '../../utils/mso.js';
+import { initiateDataSeed, pollSeedStatus, PollSeedResponse } from '../../utils/api.js';
+import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../utils/mso.js';
+import { DataSeedingGenerateResult } from '../../utils/types.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.generate');
-
-export type DataSeedingGenerateResult = {
-  dataSeedingJob: string;
-  jobId: string;
-  startTime?: string;
-  endTime?: string;
-  sourceOrg: string;
-  targetOrg: string;
-  status?: string;
-};
 export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
@@ -62,17 +53,21 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
   public async run(): Promise<DataSeedingGenerateResult> {
     const { flags } = await this.parse(DataSeedingGenerate);
-    const {
-      async,
-      'config-file': configFile,
-      'source-org': sourceOrg,
-      'target-org': targetOrg,
-      wait
-    } = flags;
+    const { async, 'config-file': configFile, 'source-org': sourceOrg, 'target-org': targetOrg, wait } = flags;
 
     const { request_id: jobId } = await initiateDataSeed(configFile);
 
     if (!jobId) throw new Error('Failed to receive job id');
+
+    const buildResponse = (response: PollSeedResponse): DataSeedingGenerateResult => ({
+      dataSeedingJob: 'generate',
+      jobId,
+      startTime: response?.execution_start_time,
+      endTime: response?.execution_end_time,
+      sourceOrg,
+      targetOrg,
+      status: response.status,
+    });
 
     // TODO: Cache the jobId so that it can be used by the `--use-most-recent` flag
 
@@ -83,57 +78,45 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
           const response = await pollSeedStatus(jobId);
-          mso.goto(response.step);
 
-          mso.updateData({
+          mso.goto(getStage(response.step), {
             startTime: response.execution_start_time,
             endTime: response.execution_end_time,
-            status: response.status
-          })
-
-          const completed = response.status === 'Completed'
-          const failed = response.status === 'Failed';
-
-          if (completed) mso.stop();
-          if (failed) {
-            const err = new SfError(`Data seeding job failed on step: ${response.step}\nLog Text: ${response.log_text}`);
-            mso.stop(err);
-            throw err;
-          }
+            status: response.status,
+          });
 
           return {
-            completed: completed || failed,
+            completed: response.status === 'Completed' || response.status === 'Failed',
             payload: response,
           };
         },
         frequency: Duration.seconds(1),
-        timeout: wait
+        timeout: wait,
       };
 
       try {
         const client = await PollingClient.create(options);
         const pollResult: PollSeedResponse = await client.subscribe();
 
-        return {
-          dataSeedingJob: 'generate',
-          jobId,
-          startTime: pollResult?.execution_start_time,
-          endTime: pollResult?.execution_end_time,
-          sourceOrg,
-          targetOrg,
-          status: pollResult.status
+        if (pollResult.status === 'Failed') {
+          mso.error();
+          throw new SfError(`Data seeding job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
+        } else {
+          mso.stop();
         }
+
+        return buildResponse(pollResult);
       } catch (e) {
         const err = SfError.wrap(e as Error);
 
         if (err.message.includes('The client has timed out')) {
           mso.updateData({ status: 'Client Timeout' });
-
           err.actions = [
             '- Increase the value of the "--wait" flag',
-            `- Check the status with: sf data-seeding report -i ${jobId}`
+            `- Check the status with: sf data-seeding report -i ${jobId}`,
           ];
         }
+
         mso.stop();
         throw err;
       }
@@ -143,33 +126,21 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
       const mso = getSeedGenerateMso({
         jsonEnabled: this.jsonEnabled(),
         showElapsedTime: false,
-        showStageTime: false
+        showStageTime: false,
       });
 
-      mso.goto(response.step);
-
-      mso.updateData({
+      mso.goto(getStage(response.step), {
         jobId,
         sourceOrg,
         targetOrg,
         startTime: response.execution_start_time,
-        status: 'Initiated'
-      })
+        status: 'Initiated',
+      });
 
       mso.stop();
-
-      this.log('Data seeding process has been initiated\n');
       this.log(`- Check the status with: sf data-seeding report -i ${jobId}`);
 
-      return {
-        dataSeedingJob: 'generate',
-        jobId,
-        startTime: response?.execution_start_time,
-        endTime: response?.execution_end_time,
-        sourceOrg,
-        targetOrg,
-        status: response.status
-      };
+      return buildResponse(response);
     }
   }
 }
