@@ -1,5 +1,6 @@
 {
  "Account": {
+    "numRecords": 10,
     "fields": [
       {
         "name": "Name",
@@ -143,6 +144,7 @@
     "formats": []
   },
   "Contact": {
+    "numRecords": 10,
     "fields": [
       {
         "name": "AccountId",
@@ -351,6 +353,7 @@
     "formats": []
   },
   "Opportunity": {
+    "numRecords": 10,
     "fields": [
       {
         "name": "Amount",

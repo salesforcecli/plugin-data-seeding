@@ -10,6 +10,7 @@ import { Messages, SfError } from '@salesforce/core';
 import { pollSeedStatus } from '../../utils/api.js';
 import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../utils/mso.js';
 import { DataSeedingReportResult } from '../../utils/types.js';
+import { GenerateRequestCache } from '../../utils/cache.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.report');
@@ -26,19 +27,21 @@ export default class DataSeedingReport extends SfCommand<DataSeedingReportResult
     'job-id': Flags.string({
       summary: messages.getMessage('flags.job-id.summary'),
       char: 'i',
-      exclusive: ['use-most-recent'],
+      exactlyOne: ['job-id', 'use-most-recent'],
     }),
     'use-most-recent': Flags.boolean({
       summary: messages.getMessage('flags.use-most-recent.summary'),
       char: 'r',
-      exclusive: ['job-id'],
+      exactlyOne: ['job-id', 'use-most-recent'],
     }),
   };
 
   public async run(): Promise<DataSeedingReportResult> {
     const { flags } = await this.parse(DataSeedingReport);
 
-    const jobId = flags['job-id'] ?? 'getMostRecentJobIdFromCache()';
+    const jobId = flags['job-id'] ?? (await GenerateRequestCache.create()).resolveFromCache().jobId;
+
+    if (!jobId) throw new SfError('No job ID provided or found in cache');
 
     const response = await pollSeedStatus(jobId);
 

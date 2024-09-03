@@ -11,6 +11,7 @@ import { Duration } from '@salesforce/kit';
 import { initiateDataSeed, pollSeedStatus, PollSeedResponse } from '../../utils/api.js';
 import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../utils/mso.js';
 import { DataSeedingGenerateResult } from '../../utils/types.js';
+import { GenerateRequestCache } from '../../utils/cache.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.generate');
@@ -58,6 +59,8 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
     const { request_id: jobId } = await initiateDataSeed(configFile);
 
     if (!jobId) throw new Error('Failed to receive job id');
+
+    await (await GenerateRequestCache.create()).createCacheEntry(jobId);
 
     const buildResponse = (response: PollSeedResponse): DataSeedingGenerateResult => ({
       dataSeedingJob: 'generate',
