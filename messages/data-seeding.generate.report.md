@@ -1,10 +1,10 @@
 # summary
 
-View the status of a data seeding job
+View the status of a data-seeding generate job
 
 # description
 
-View the status of a data seeding job that has already been initiated or completed 
+View the status of a data-seeding generate job that has already been initiated or completed 
 
 # examples
 
@@ -13,10 +13,11 @@ View the status of a data seeding job that has already been initiated or complet
 
 - Display the status of a the most recent data seeding job
   <%= config.bin %> <%= command.id %> --use-most-recent
+
 # flags.job-id.summary
 
-ID of a specific data seeding job.
+ID of a specific `data-seeding generate` job.
 
 # flags.use-most-recent.summary
 
-View status of most recent data seeding job.
+View status of most recent `data-seeding generate` job.

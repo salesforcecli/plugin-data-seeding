@@ -35,3 +35,7 @@ Number of minutes to wait for command to complete.
 # flags.async.summary
 
 Run the command asynchronously.
+
+# report.suggestion
+
+ - Check the status with: sf data-seeding generate report -i %s

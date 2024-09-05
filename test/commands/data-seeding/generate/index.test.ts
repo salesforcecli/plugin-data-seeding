@@ -7,9 +7,9 @@
 import { TestContext } from '@salesforce/core/testSetup';
 import { expect } from 'chai';
 import { stubSfCommandUx } from '@salesforce/sf-plugins-core';
-import DataSeedingReport from '../../../src/commands/data-seeding/report.js';
+import DataSeedingGenerate from '../../../../src/commands/data-seeding/generate/index.js';
 
-describe('data-seeding report', () => {
+describe('data-seeding generate', () => {
   const $$ = new TestContext();
   let sfCommandStubs: ReturnType<typeof stubSfCommandUx>;
 
@@ -22,7 +22,7 @@ describe('data-seeding report', () => {
   });
 
   it('runs hello', async () => {
-    await DataSeedingReport.run([]);
+    await DataSeedingGenerate.run([]);
     const output = sfCommandStubs.log
       .getCalls()
       .flatMap((c) => c.args)
@@ -31,12 +31,12 @@ describe('data-seeding report', () => {
   });
 
   it('runs hello with --json and no provided name', async () => {
-    const result = await DataSeedingReport.run([]);
-    expect(result.path).to.equal('src/commands/data-seeding/report.ts');
+    const result = await DataSeedingGenerate.run([]);
+    expect(result.path).to.equal('src/commands/data-seeding/generate.ts');
   });
 
   it('runs hello world --name Astro', async () => {
-    await DataSeedingReport.run(['--name', 'Astro']);
+    await DataSeedingGenerate.run(['--name', 'Astro']);
     const output = sfCommandStubs.log
       .getCalls()
       .flatMap((c) => c.args)

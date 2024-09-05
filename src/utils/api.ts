@@ -24,6 +24,8 @@ export type PollSeedResponse = {
   step: string;
 };
 
+export type DataSeedingOperation = 'data-generation' | 'data-copy';
+
 const baseUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-scratchpad5.sfdc-3vx9f4.svc.sfdcfc.net';
 const csrfUrl = `${baseUrl}/get-csrf-token`;
 const seedUrl = `${baseUrl}/data-seed`;
@@ -42,15 +44,16 @@ export const getCsrfToken = (cookieJar: CookieJar): string => {
   return csrfToken;
 };
 
-export const initiateDataSeed = async (config: string): Promise<SeedResponse> => {
+export const initiateDataSeed = async (config: string, operation: DataSeedingOperation): Promise<SeedResponse> => {
   const cookieJar = await getCookieJar();
   const csrf = getCsrfToken(cookieJar);
 
   const form = new FormData();
   form.append('config_file', fs.createReadStream(config));
   form.append('credentials_file', fs.createReadStream('ignore/credentials.txt'));
+  form.append('operation', operation);
 
-  // NOTE: This could be updated to use .json() instead of JSON.parse once the Error response is changed to be JSON
+  // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
   const response = await got.post(seedUrl, {
     throwHttpErrors: false,
     cookieJar,
@@ -62,7 +65,7 @@ export const initiateDataSeed = async (config: string): Promise<SeedResponse> =>
   });
 
   if (response.statusCode !== 200) {
-    throw new SfError(`Failed to initiate data seeding:\n${response.body}`);
+    throw new SfError(`Failed to initiate data-seeding operation (${operation}). Response:\n${response.body}`);
   }
 
   return JSON.parse(response.body);
@@ -71,11 +74,11 @@ export const initiateDataSeed = async (config: string): Promise<SeedResponse> =>
 export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {
   const logger = await Logger.child('PollSeedStatus');
 
-  // NOTE: This could be updated to use .json() instead of JSON.parse once the Error response is changed to be JSON
+  // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
   const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false });
 
   if (response.statusCode !== 200) {
-    // This endpoint returns debugger output... dont print body
+    // TODO: Print error body once the Error response is changed to be JSON
     throw new SfError(`Failed to poll data seeding status for ${jobId}`);
   }
 

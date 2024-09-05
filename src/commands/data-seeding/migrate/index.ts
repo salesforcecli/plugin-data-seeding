@@ -6,16 +6,17 @@
  */
 
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
-import { Messages, PollingClient, SfError, StatusResult } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
-import { initiateDataSeed, pollSeedStatus, PollSeedResponse } from '../../utils/api.js';
-import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../utils/mso.js';
-import { DataSeedingGenerateResult } from '../../utils/types.js';
-import { GenerateRequestCache } from '../../utils/cache.js';
+import { Messages, PollingClient, StatusResult, SfError } from '@salesforce/core';
+import { initiateDataSeed, PollSeedResponse, pollSeedStatus } from '../../../utils/api.js';
+import { DataSeedingMigrateResult } from '../../../utils/types.js';
+import { getSeedMigrateMso, getSeedMigrateStage as getStage } from '../../../utils/mso.js';
+import { MigrateRequestCache } from '../../../utils/cache.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.generate');
-export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateResult> {
+const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.migrate');
+
+export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -52,31 +53,31 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
     }),
   };
 
-  public async run(): Promise<DataSeedingGenerateResult> {
-    const { flags } = await this.parse(DataSeedingGenerate);
+  public async run(): Promise<DataSeedingMigrateResult> {
+    const { flags } = await this.parse(DataSeedingMigrate);
     const { async, 'config-file': configFile, 'source-org': sourceOrg, 'target-org': targetOrg, wait } = flags;
 
-    const { request_id: jobId } = await initiateDataSeed(configFile);
+    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy');
 
     if (!jobId) throw new Error('Failed to receive job id');
 
-    await (await GenerateRequestCache.create()).createCacheEntry(jobId);
+    const reportMessage = messages.getMessage('report.suggestion', [jobId]);
 
-    const buildResponse = (response: PollSeedResponse): DataSeedingGenerateResult => ({
-      dataSeedingJob: 'generate',
-      jobId,
+    await (await MigrateRequestCache.create()).createCacheEntry(jobId);
+
+    const baseData = { jobId, sourceOrg, targetOrg };
+
+    const buildResponse = (response: PollSeedResponse): DataSeedingMigrateResult => ({
+      dataSeedingJob: 'migrate',
       startTime: response?.execution_start_time,
       endTime: response?.execution_end_time,
-      sourceOrg,
-      targetOrg,
       status: response.status,
+      ...baseData,
     });
 
-    // TODO: Cache the jobId so that it can be used by the `--use-most-recent` flag
-
     if (wait && !async) {
-      const mso = getSeedGenerateMso({ jsonEnabled: this.jsonEnabled() });
-      mso.updateData({ jobId, sourceOrg, targetOrg });
+      const mso = getSeedMigrateMso({ jsonEnabled: this.jsonEnabled() });
+      mso.updateData(baseData);
 
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
@@ -103,7 +104,7 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
         if (pollResult.status === 'Failed') {
           mso.error();
-          throw new SfError(`Data seeding job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
+          throw new SfError(`Data migration job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
         } else {
           mso.stop();
         }
@@ -114,34 +115,31 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
         if (err.message.includes('The client has timed out')) {
           mso.updateData({ status: 'Client Timeout' });
-          err.actions = [
-            '- Increase the value of the "--wait" flag',
-            `- Check the status with: sf data-seeding report -i ${jobId}`,
-          ];
+          err.actions = [ reportMessage ];
+          mso.stop('current');
+        } else {
+          mso.error();
         }
 
-        mso.stop();
         throw err;
       }
     } else {
       const response = await pollSeedStatus(jobId);
 
-      const mso = getSeedGenerateMso({
+      const mso = getSeedMigrateMso({
         jsonEnabled: this.jsonEnabled(),
         showElapsedTime: false,
         showStageTime: false,
       });
 
       mso.goto(getStage(response.step), {
-        jobId,
-        sourceOrg,
-        targetOrg,
+        ...baseData,
         startTime: response.execution_start_time,
         status: 'Initiated',
       });
 
-      mso.stop();
-      this.log(`- Check the status with: sf data-seeding report -i ${jobId}`);
+      mso.stop('current');
+      this.log(reportMessage);
 
       return buildResponse(response);
     }

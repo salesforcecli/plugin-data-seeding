@@ -7,18 +7,18 @@
 
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages, SfError } from '@salesforce/core';
-import { pollSeedStatus } from '../../utils/api.js';
-import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../utils/mso.js';
-import { DataSeedingReportResult } from '../../utils/types.js';
-import { GenerateRequestCache } from '../../utils/cache.js';
+import { pollSeedStatus } from '../../../utils/api.js';
+import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../../utils/mso.js';
+import { DataSeedingReportResult } from '../../../utils/types.js';
+import { GenerateRequestCache } from '../../../utils/cache.js';
 
 Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
-const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.report');
+const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.generate.report');
 
 // TEMP failure (Querying Source Org): 9258aae5-e9b0-4c73-a340-962d299b71bd
 // TEMP failure (Populating Target Org): 0aab5c70-069d-48f5-aa0d-157f745c5dfe
 
-export default class DataSeedingReport extends SfCommand<DataSeedingReportResult> {
+export default class DataSeedingGenerateReport extends SfCommand<DataSeedingReportResult> {
   public static readonly summary = messages.getMessage('summary');
   public static readonly description = messages.getMessage('description');
   public static readonly examples = messages.getMessages('examples');
@@ -37,7 +37,7 @@ export default class DataSeedingReport extends SfCommand<DataSeedingReportResult
   };
 
   public async run(): Promise<DataSeedingReportResult> {
-    const { flags } = await this.parse(DataSeedingReport);
+    const { flags } = await this.parse(DataSeedingGenerateReport);
 
     const jobId = flags['job-id'] ?? (await GenerateRequestCache.create()).resolveFromCache().jobId;
 
@@ -45,27 +45,25 @@ export default class DataSeedingReport extends SfCommand<DataSeedingReportResult
 
     const response = await pollSeedStatus(jobId);
 
+    const data = {
+      jobId,
+      startTime: response.execution_start_time,
+      endTime: response.execution_end_time,
+      status: response.status,
+    };
+
     const mso = getSeedGenerateMso({
       jsonEnabled: this.jsonEnabled(),
       showElapsedTime: false,
       showStageTime: false,
     });
 
-    mso.goto(getStage(response.step), {
-      jobId,
-      startTime: response.execution_start_time,
-      endTime: response.execution_end_time,
-      status: response.status,
-    });
+    mso.goto(getStage(response.step), data);
 
     switch (response.status) {
-      case 'Completed':
-        mso.stop();
+      case 'In Progress':
+        mso.stop('current');
         break;
-      // The 'current' status will be implemented in a future mso update
-      // case 'In Progress':
-      //   mso.stop('current');
-      //   break;
       case 'Failed':
         mso.error();
         throw new SfError(`Failed on step: ${response.step}\nLog Text: ${response.log_text}`);
@@ -75,10 +73,7 @@ export default class DataSeedingReport extends SfCommand<DataSeedingReportResult
 
     return {
       dataSeedingJob: 'generate',
-      jobId,
-      startTime: response.execution_start_time,
-      endTime: response.execution_end_time,
-      status: response.status,
+      ...data,
     };
   }
 }

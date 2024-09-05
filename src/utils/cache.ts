@@ -61,4 +61,20 @@ export class GenerateRequestCache extends DataSeedingRequestCache {
   }
 }
 
+export class MigrateRequestCache extends DataSeedingRequestCache {
+  public static getDefaultOptions(): TTLConfig.Options {
+    return {
+      isGlobal: true,
+      isState: true,
+      filename: 'data-seeding-migrate-request-cache.json',
+      stateFolder: Global.SF_STATE_FOLDER,
+      ttl: Duration.days(14),
+    };
+  }
 
+  public static async unset(key: string): Promise<void> {
+    const cache = await MigrateRequestCache.create();
+    cache.unset(key);
+    await cache.write();
+  }
+}

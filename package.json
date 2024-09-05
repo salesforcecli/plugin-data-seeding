@@ -23,6 +23,7 @@
     "eslint-plugin-sf-plugin": "^1.20.5",
     "oclif": "^4.14.19",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.0",
     "typescript": "^5.5.4"
   },
   "engines": {
@@ -58,7 +59,15 @@
     ],
     "topics": {
       "data-seeding": {
-        "description": "Migrate real data, generate fake data using GenAI, or deploy data files to target orgs"
+        "description": "Migrate real data, generate fake data using GenAI, or deploy data files to target orgs",
+        "subtopics": {
+          "generate": {
+            "description": "description for data-seeding.generate"
+          },
+          "migrate": {
+            "description": "description for data-seeding.migrate"
+          }
+        }
       }
     },
     "flexibleTaxonomy": true

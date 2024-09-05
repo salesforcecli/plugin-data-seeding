@@ -7,7 +7,7 @@
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
 
-describe('data-seeding report NUTs', () => {
+describe('data-seeding generate report NUTs', () => {
   let session: TestSession;
 
   before(async () => {
@@ -20,7 +20,7 @@ describe('data-seeding report NUTs', () => {
 
   it('should display provided name', () => {
     const name = 'World';
-    const command = `data-seeding report --name ${name}`;
+    const command = `data-seeding generate report --name ${name}`;
     const output = execCmd(command, { ensureExitCode: 0 }).shellOutput.stdout;
     expect(output).to.contain(name);
   });
