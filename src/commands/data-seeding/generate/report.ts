@@ -64,6 +64,10 @@ export default class DataSeedingGenerateReport extends SfCommand<DataSeedingRepo
       case 'In Progress':
         mso.stop('current');
         break;
+      case 'Partially Completed':
+        mso.stop('warning');
+        this.log(`Process partially completed: ${response.log_text}`);
+        break;
       case 'Failed':
         mso.error();
         throw new SfError(`Failed on step: ${response.step}\nLog Text: ${response.log_text}`);

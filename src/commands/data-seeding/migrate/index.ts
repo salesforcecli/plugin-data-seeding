@@ -79,6 +79,8 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
       const mso = getSeedMigrateMso({ jsonEnabled: this.jsonEnabled() });
       mso.updateData(baseData);
 
+      const completedStatus = ['Completed', 'Partially Completed', 'Failed'];
+
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
           const response = await pollSeedStatus(jobId);
@@ -90,7 +92,7 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
           });
 
           return {
-            completed: response.status === 'Completed' || response.status === 'Failed',
+            completed: completedStatus.includes(response.status),
             payload: response,
           };
         },
@@ -102,11 +104,16 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
         const client = await PollingClient.create(options);
         const pollResult: PollSeedResponse = await client.subscribe();
 
-        if (pollResult.status === 'Failed') {
-          mso.error();
-          throw new SfError(`Data migration job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
-        } else {
-          mso.stop();
+        switch (pollResult.status) {
+          case 'Failed':
+            mso.error();
+            throw new SfError(`Data migration job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
+          case 'Partially Completed':
+            mso.stop('warning');
+            this.log(`Process partially completed: ${pollResult.log_text}`);
+            break;
+          default:
+            mso.stop('current');
         }
 
         return buildResponse(pollResult);
@@ -138,7 +145,7 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
         status: 'Initiated',
       });
 
-      mso.stop('current');
+      mso.stop('async');
       this.log(reportMessage);
 
       return buildResponse(response);

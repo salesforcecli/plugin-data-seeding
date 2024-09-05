@@ -83,6 +83,7 @@ const getSeedMso = (overrides: SeedMsoOverrides = {}): MultiStageOutput<SeedGene
         get: (data): MsoGet => data?.jobId,
         type: 'static-key-value',
         label: 'Job ID',
+        neverCollapse: true,
       },
       {
         get: (data): MsoGet => data?.sourceOrg,
@@ -103,16 +104,18 @@ const getSeedMso = (overrides: SeedMsoOverrides = {}): MultiStageOutput<SeedGene
             case 'Completed':
             case 'Initiated':
               return StandardColors.success(status);
+            case 'Client Timeout':
+            case 'Partially Completed':
+              return StandardColors.warning(status);
             case 'Failed':
               return StandardColors.error(status);
-            case 'Client Timeout':
-              return StandardColors.warning(status);
             default:
               return status;
           }
         },
         type: 'static-key-value',
         label: 'Status',
+        neverCollapse: true,
       },
       {
         get: (data): MsoGet => data?.startTime,

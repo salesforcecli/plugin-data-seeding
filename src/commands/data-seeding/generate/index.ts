@@ -79,6 +79,8 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
       const mso = getSeedGenerateMso({ jsonEnabled: this.jsonEnabled() });
       mso.updateData(baseData);
 
+      const completedStatus = ['Completed', 'Partially Completed', 'Failed'];
+
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
           const response = await pollSeedStatus(jobId);
@@ -90,7 +92,7 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
           });
 
           return {
-            completed: response.status === 'Completed' || response.status === 'Failed',
+            completed: completedStatus.includes(response.status),
             payload: response,
           };
         },
@@ -102,11 +104,16 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
         const client = await PollingClient.create(options);
         const pollResult: PollSeedResponse = await client.subscribe();
 
-        if (pollResult.status === 'Failed') {
-          mso.error();
-          throw new SfError(`Data seeding job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
-        } else {
-          mso.stop();
+        switch (pollResult.status) {
+          case 'Failed':
+            mso.error();
+            throw new SfError(`Data seeding job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
+          case 'Partially Completed':
+            mso.stop('warning');
+            this.log(`Process partially completed: ${pollResult.log_text}`);
+            break;
+          default:
+            mso.stop('current');
         }
 
         return buildResponse(pollResult);
@@ -138,7 +145,7 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
         status: 'Initiated',
       });
 
-      mso.stop('current');
+      mso.stop('async');
       this.log(reportMessage);
 
       return buildResponse(response);
