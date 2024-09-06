@@ -108,36 +108,150 @@ sf plugins
 <!-- commands -->
 
 - [`sf data-seeding generate`](#sf-data-seeding-generate)
+- [`sf data-seeding generate report`](#sf-data-seeding-generate-report)
+- [`sf data-seeding migrate`](#sf-data-seeding-migrate)
+- [`sf data-seeding migrate report`](#sf-data-seeding-migrate-report)
 
 ## `sf data-seeding generate`
 
-Summary of a command.
+Generate org data using AI
 
 ```
 USAGE
-  $ sf data-seeding generate [--json] [--flags-dir <value>] [-n <value>]
+  $ sf data-seeding generate -o <value> -s <value> -f <value> [--json] [--flags-dir <value>] [-w <value> | --async]
 
 FLAGS
-  -n, --name=<value>  Description of a flag.
+  -f, --config-file=<value>  (required) Path to data seeding JSON configuration file.
+  -o, --target-org=<value>   (required) Username or alias of the Target org where generated data will be loaded to.
+  -s, --source-org=<value>   (required) Username or alias of the Source org containing data to be used as input for AI
+                             to generate similar data.
+  -w, --wait=<value>         [default: 33 minutes] Number of minutes to wait for command to complete.
+      --async                Run the command asynchronously.
 
 GLOBAL FLAGS
   --flags-dir=<value>  Import flag values from a directory.
   --json               Format output as json.
 
 DESCRIPTION
-  Summary of a command.
+  Generate org data using AI
 
-  More information about a command. Don't repeat the summary.
+  Generates data using AI that is similar to selected data from a source org, based on a configuration file, and loads
+  it into a target org
 
 EXAMPLES
-  $ sf data-seeding generate
+  Generate data using org aliases
 
-FLAG DESCRIPTIONS
-  -n, --name=<value>  Description of a flag.
+    $ sf data-seeding generate -s mySourceOrg -o myTargetOrg -f "./config/seed-config.json"
 
-    More information about a flag. Don't repeat the summary.
+  Generate data using usernames for each org
+
+    $ sf data-seeding generate --source-org="source@org.com" --target-org="target@org.com" --config-file \
+      "./config/seed-config.json"
 ```
 
-_See code: [src/commands/data-seeding/generate.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.0/src/commands/data-seeding/generate.ts)_
+_See code: [src/commands/data-seeding/generate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.3/src/commands/data-seeding/generate/index.ts)_
+
+## `sf data-seeding generate report`
+
+View the status of a data-seeding generate job
+
+```
+USAGE
+  $ sf data-seeding generate report [--json] [--flags-dir <value>] [-i <value>] [-r]
+
+FLAGS
+  -i, --job-id=<value>   ID of a specific `data-seeding generate` job.
+  -r, --use-most-recent  View status of most recent `data-seeding generate` job.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  View the status of a data-seeding generate job
+
+  View the status of a data-seeding generate job that has already been initiated or completed
+
+EXAMPLES
+  Display the status of a specific data seeding job
+
+    $ sf data-seeding generate report --job-id="[XXXX-YYYY-ZZZZ-AAAA]"
+
+  Display the status of a the most recent data seeding job
+
+    $ sf data-seeding generate report --use-most-recent
+```
+
+_See code: [src/commands/data-seeding/generate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.3/src/commands/data-seeding/generate/report.ts)_
+
+## `sf data-seeding migrate`
+
+Migrates data from one org to another
+
+```
+USAGE
+  $ sf data-seeding migrate -o <value> -s <value> -f <value> [--json] [--flags-dir <value>] [-w <value> | --async]
+
+FLAGS
+  -f, --config-file=<value>  (required) Path to data migration JSON configuration file.
+  -o, --target-org=<value>   (required) Username or alias of the Target org where data will be migrated to.
+  -s, --source-org=<value>   (required) Username or alias of the Source org where data will be migrated from.
+  -w, --wait=<value>         [default: 33 minutes] Number of minutes to wait for command to complete.
+      --async                Run the command asynchronously.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  Migrates data from one org to another
+
+  Migrates selected data based on a configuration file from a source org and into a target org
+
+EXAMPLES
+  Migrate data using a specific configuration file and org aliases
+
+    $ sf data-seeding migrate -s sourceOrg -t targetOrg -f "/config/data-seed.json"
+
+  Migrate data using default configuration file and usernames for each org
+
+    $ sf data-seeding migrate --source-org="source@org.com" --target-org="target@org.com" \
+      --config-file="/config/data-seed.json"
+```
+
+_See code: [src/commands/data-seeding/migrate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.3/src/commands/data-seeding/migrate/index.ts)_
+
+## `sf data-seeding migrate report`
+
+View the status of a data-seeding migrate job
+
+```
+USAGE
+  $ sf data-seeding migrate report [--json] [--flags-dir <value>] [-i <value>] [-r]
+
+FLAGS
+  -i, --job-id=<value>   ID of a specific `data-seeding migrate` job.
+  -r, --use-most-recent  View status of most recent `data-seeding migrate` job.
+
+GLOBAL FLAGS
+  --flags-dir=<value>  Import flag values from a directory.
+  --json               Format output as json.
+
+DESCRIPTION
+  View the status of a data-seeding migrate job
+
+  View the status of a data-seeding migrate job that has already been initiated or completed
+
+EXAMPLES
+  Display the status of a specific data seeding job
+
+    $ sf data-seeding migrate report --job-id="[XXXX-YYYY-ZZZZ-AAAA]"
+
+  Display the status of a the most recent data seeding job
+
+    $ sf data-seeding migrate report --use-most-recent
+```
+
+_See code: [src/commands/data-seeding/migrate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.3/src/commands/data-seeding/migrate/report.ts)_
 
 <!-- commandsstop -->

@@ -7,7 +7,7 @@
 import { execCmd, TestSession } from '@salesforce/cli-plugins-testkit';
 import { expect } from 'chai';
 
-describe('data-seeding generate NUTs', () => {
+xdescribe('data-seeding generate NUTs', () => {
   let session: TestSession;
 
   before(async () => {

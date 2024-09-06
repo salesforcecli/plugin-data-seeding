@@ -54,6 +54,7 @@ export const initiateDataSeed = async (config: string, operation: DataSeedingOpe
   form.append('operation', operation);
 
   // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
+  //       Update the return type as well
   const response = await got.post(seedUrl, {
     throwHttpErrors: false,
     cookieJar,
@@ -68,13 +69,14 @@ export const initiateDataSeed = async (config: string, operation: DataSeedingOpe
     throw new SfError(`Failed to initiate data-seeding operation (${operation}). Response:\n${response.body}`);
   }
 
-  return JSON.parse(response.body);
+  return JSON.parse(response.body) as SeedResponse;
 };
 
 export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {
   const logger = await Logger.child('PollSeedStatus');
 
   // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
+  //       Update the return type as well
   const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false });
 
   if (response.statusCode !== 200) {
@@ -82,7 +84,7 @@ export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> =
     throw new SfError(`Failed to poll data seeding status for ${jobId}`);
   }
 
-  const json = JSON.parse(response.body);
+  const json = JSON.parse(response.body) as PollSeedResponse;
   logger.debug(json);
 
   return json;
