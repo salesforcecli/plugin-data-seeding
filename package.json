@@ -1,22 +1,22 @@
 {
   "name": "@salesforce/plugin-data-seeding",
   "description": "Migrate real data, generate fake data using GenAI, or deploy data files to target orgs.",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "author": "Salesforce",
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
     "@oclif/core": "^4",
-    "@salesforce/core": "^8.2.7",
-    "@salesforce/kit": "^3.2.1",
+    "@salesforce/core": "^8.5.3",
+    "@salesforce/kit": "^3.2.2",
     "@salesforce/sf-plugins-core": "^11.3.3"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.2.12",
-    "@salesforce/cli-plugins-testkit": "^5.3.26",
+    "@oclif/plugin-command-snapshot": "^5.2.15",
+    "@salesforce/cli-plugins-testkit": "^5.3.27",
     "@salesforce/dev-scripts": "^10.2.9",
-    "@salesforce/plugin-command-reference": "^3.1.13",
+    "@salesforce/plugin-command-reference": "^3.1.20",
     "eslint-plugin-sf-plugin": "^1.20.5",
-    "oclif": "^4.14.19",
+    "oclif": "^4.14.28",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"
   },
