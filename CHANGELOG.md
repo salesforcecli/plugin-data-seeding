@@ -1,3 +1,9 @@
+## [1.0.4](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.3...1.0.4) (2024-09-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 11.3.6 to 11.3.7 ([0a1cdfd](https://github.com/salesforcecli/plugin-data-seeding/commit/0a1cdfd995e59a9b97f5477348fb36703686eb1c))
+
 ## [1.0.3](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.2...1.0.3) (2024-09-02)
 
 ### Bug Fixes
