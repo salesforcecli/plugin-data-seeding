@@ -105,9 +105,14 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
         const pollResult: PollSeedResponse = await client.subscribe();
 
         switch (pollResult.status) {
+          case 'Completed':
+            mso.stop();
+            break;
           case 'Failed':
             mso.error();
-            throw new SfError(`Data migration job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
+            throw new SfError(
+              `Data migration job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`
+            );
           case 'Partially Completed':
             mso.stop('warning');
             this.log(`Process partially completed: ${pollResult.log_text}`);
@@ -122,7 +127,7 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
         if (err.message.includes('The client has timed out')) {
           mso.updateData({ status: 'Client Timeout' });
-          err.actions = [ reportMessage ];
+          err.actions = [reportMessage];
           mso.stop('current');
         } else {
           mso.error();

@@ -105,6 +105,9 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
         const pollResult: PollSeedResponse = await client.subscribe();
 
         switch (pollResult.status) {
+          case 'Completed':
+            mso.stop();
+            break;
           case 'Failed':
             mso.error();
             throw new SfError(`Data seeding job failed on step: ${pollResult.step}\nLog Text: ${pollResult.log_text}`);
@@ -122,7 +125,7 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
         if (err.message.includes('The client has timed out')) {
           mso.updateData({ status: 'Client Timeout' });
-          err.actions = [ reportMessage ];
+          err.actions = [reportMessage];
           mso.stop('current');
         } else {
           mso.error();
