@@ -4,21 +4,21 @@ Generate synthetic org data that mimics existing data in a source org, and then 
 
 # description
 
-This command uses AI to generate synthentic (or "fake") data that has a similar format to selected data in a source org. The command uses a JSON configuration file to define the characteristics of the synthetic data. For example, the configuration file might specify the number of records to generate for one or more Salesforce objects, along with the subset of fields to include. Once generated, the data is automatically loaded into the specified target org. You must be authenticated to both the source and target orgs before running this command.
+This command uses AI to generate synthetic (or "fake") data that has a similar format to selected data in a source org. The command uses a JSON configuration file to define the characteristics of the synthetic data. For example, the configuration file might specify the number of records to generate for one or more Salesforce objects, along with the subset of fields to include. Once generated, the data is automatically loaded into the specified target org. You must be authenticated to both the source and target orgs before running this command.
 
 By default, this command runs synchronously and outputs the job ID, along with a running status of each execution phase, such as querying the source org or generating the data. If you prefer, you can run the command asynchronously by specifying the --async flag so that the control of the terminal is immediately returned to you. Then use the job ID to run the "data-seeding generate report" command to view the status.
 
 # examples
 
-- Generate synthentic data similar to existing data in the org with alias "mySourceOrg" then load it into the org with alias "myTargetOrg"; use the specified config file to determine the format of the generated data:
+- Generate synthetic data similar to existing data in the org with alias "mySourceOrg" then load it into the org with alias "myTargetOrg"; use the specified config file to determine the format of the generated data:
 
   <%= config.bin %> <%= command.id %> --source-org mySourceOrg --target-org myTargetOrg --config-file ./config/seed-config.json
 
-- Generate synthentic data using org usernames and run the command asynchronously:
+- Generate synthetic data using org usernames and run the command asynchronously:
 
   <%= config.bin %> <%= command.id %> --source-org source@org.com" --target-org target@org.com" --config-file ./config/seed-config.json --async
 
-- Generate synthentic data using org aliases; if after 5 minutes the command hasn't finished, it completes asynchronously:
+- Generate synthetic data using org aliases; if after 5 minutes the command hasn't finished, it completes asynchronously:
 
   <%= config.bin %> <%= command.id %> --source-org source@org.com" --target-org target@org.com" --config-file ./config/seed-config.json --wait 5
 
