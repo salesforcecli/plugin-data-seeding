@@ -1,3 +1,9 @@
+## [1.0.8](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.7...1.0.8) (2024-09-29)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.0.22 to 4.0.23 ([af17aca](https://github.com/salesforcecli/plugin-data-seeding/commit/af17aca873a3be1d811696502ae517d279c2f711))
+
 ## [1.0.7](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.6...1.0.7) (2024-09-15)
 
 ### Bug Fixes
