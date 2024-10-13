@@ -144,6 +144,6 @@ FLAG DESCRIPTIONS
     This person can be anyone in the world!
 ```
 
-_See code: [src/commands/hello/world.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.0.9/src/commands/hello/world.ts)_
+_See code: [src/commands/hello/world.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.0.10/src/commands/hello/world.ts)_
 
 <!-- commandsstop -->
