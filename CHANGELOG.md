@@ -1,3 +1,45 @@
+## [1.0.10](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.9...1.0.10) (2024-10-13)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.0.27 to 4.0.28 ([cbd9f1b](https://github.com/salesforcecli/plugin-data-seeding/commit/cbd9f1b739ff252d1323cef14bea52e03378bc50))
+
+## [1.0.9](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.8...1.0.9) (2024-10-13)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 11.3.10 to 11.3.12 ([f170cac](https://github.com/salesforcecli/plugin-data-seeding/commit/f170cacc2f3a15f7b0f915a02e58433cf8e8c48d))
+
+## [1.0.8](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.7...1.0.8) (2024-09-29)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.0.22 to 4.0.23 ([af17aca](https://github.com/salesforcecli/plugin-data-seeding/commit/af17aca873a3be1d811696502ae517d279c2f711))
+
+## [1.0.7](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.6...1.0.7) (2024-09-15)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.0.21 to 4.0.22 ([2ac49b3](https://github.com/salesforcecli/plugin-data-seeding/commit/2ac49b36d19b01f8f8edb2b6915cc3379d5dc3db))
+
+## [1.0.6](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.5...1.0.6) (2024-09-15)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 11.3.7 to 11.3.10 ([6cb60ef](https://github.com/salesforcecli/plugin-data-seeding/commit/6cb60ef5aae236716bd20978590f50296a00e535))
+
+## [1.0.5](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.4...1.0.5) (2024-09-08)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.0.19 to 4.0.21 ([9d0bef5](https://github.com/salesforcecli/plugin-data-seeding/commit/9d0bef51702e55602cf79d776cbf31ef07a43547))
+
+## [1.0.4](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.3...1.0.4) (2024-09-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/sf-plugins-core from 11.3.6 to 11.3.7 ([0a1cdfd](https://github.com/salesforcecli/plugin-data-seeding/commit/0a1cdfd995e59a9b97f5477348fb36703686eb1c))
+
 ## [1.0.3](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.2...1.0.3) (2024-09-02)
 
 ### Bug Fixes
