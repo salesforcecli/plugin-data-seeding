@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/DataSeedingReportResult",
+  "definitions": {
+    "DataSeedingReportResult": {
+      "type": "object",
+      "properties": {
+        "dataSeedingJob": {
+          "$ref": "#/definitions/DataSeedingJob"
+        },
+        "jobId": {
+          "type": "string"
+        },
+        "startTime": {
+          "type": "string"
+        },
+        "endTime": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        }
+      },
+      "required": ["dataSeedingJob", "jobId"],
+      "additionalProperties": false
+    },
+    "DataSeedingJob": {
+      "type": "string",
+      "enum": ["generate", "migrate"]
+    }
+  }
+}

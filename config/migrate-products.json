@@ -1,0 +1,488 @@
+{
+  "Account": {
+    "numRecords": 10,
+    "fields": [
+      {
+        "name": "Name",
+        "label": "Account Name",
+        "byteLength": 765,
+        "caseSensitive": false,
+        "length": 255,
+        "nameField": true,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "Rating",
+        "label": "Account Rating",
+        "byteLength": 765,
+        "caseSensitive": false,
+        "picklistValues": [
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Hot",
+            "validFor": null,
+            "value": "Hot"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Warm",
+            "validFor": null,
+            "value": "Warm"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Cool",
+            "validFor": null,
+            "value": "Cool"
+          }
+        ],
+        "length": 255,
+        "nameField": false,
+        "nillable": true,
+        "type": "picklist",
+        "unique": false
+      },
+      {
+        "name": "AnnualRevenue",
+        "label": "Annual Revenue",
+        "byteLength": 0,
+        "caseSensitive": false,
+        "precision": 18,
+        "nameField": false,
+        "nillable": true,
+        "type": "currency",
+        "unique": false
+      },
+      {
+        "name": "Phone",
+        "label": "Business Phone",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "phone",
+        "unique": false
+      },
+      {
+        "name": "Description",
+        "label": "Contact Description",
+        "byteLength": 96000,
+        "caseSensitive": false,
+        "length": 32000,
+        "nameField": false,
+        "nillable": true,
+        "type": "textarea",
+        "unique": false
+      },
+      {
+        "name": "BillingStreet",
+        "label": "Billing Street",
+        "byteLength": 765,
+        "caseSensitive": false,
+        "length": 255,
+        "nameField": false,
+        "nillable": true,
+        "type": "textarea",
+        "unique": false
+      },
+      {
+        "name": "BillingCity",
+        "label": "Billing City",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "BillingState",
+        "label": "Billing State/Province",
+        "byteLength": 240,
+        "caseSensitive": false,
+        "length": 80,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "BillingPostalCode",
+        "label": "Billing Zip/Postal Code",
+        "byteLength": 60,
+        "caseSensitive": false,
+        "length": 20,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "BillingCountry",
+        "label": "Billing Country",
+        "byteLength": 240,
+        "caseSensitive": false,
+        "length": 80,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      }
+    ],
+    "relatedObjects": [],
+    "duplicateCheck": [
+      "Name"
+    ],
+    "recordIds": [],
+    "formats": []
+  },
+  "Contact": {
+    "numRecords": 10,
+    "fields": [
+      {
+        "name": "AccountId",
+        "label": "Account Id",
+        "type": "id"
+      },
+      {
+        "name": "AssistantName",
+        "label": "Assistant's Name",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "AssistantPhone",
+        "label": "Asst. Phone",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "phone",
+        "unique": false
+      },
+      {
+        "name": "Phone",
+        "label": "Business Phone",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "phone",
+        "unique": false
+      },
+      {
+        "name": "Description",
+        "label": "Contact Description",
+        "byteLength": 96000,
+        "caseSensitive": false,
+        "length": 32000,
+        "nameField": false,
+        "nillable": true,
+        "type": "textarea",
+        "unique": false
+      },
+      {
+        "name": "FirstName",
+        "label": "First Name",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "LastName",
+        "label": "Last Name",
+        "byteLength": 240,
+        "caseSensitive": false,
+        "length": 80,
+        "nameField": false,
+        "nillable": false,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "MailingStreet",
+        "label": "Mailing Street",
+        "byteLength": 765,
+        "caseSensitive": false,
+        "length": 255,
+        "nameField": false,
+        "nillable": true,
+        "type": "textarea",
+        "unique": false
+      },
+      {
+        "name": "MailingCity",
+        "label": "Mailing City",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "MailingState",
+        "label": "Mailing State/Province",
+        "byteLength": 240,
+        "caseSensitive": false,
+        "length": 80,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "MailingPostalCode",
+        "label": "Mailing Zip/Postal Code",
+        "byteLength": 60,
+        "caseSensitive": false,
+        "length": 20,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "MailingCountry",
+        "label": "Mailing Country",
+        "byteLength": 240,
+        "caseSensitive": false,
+        "length": 80,
+        "nameField": false,
+        "nillable": true,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "MobilePhone",
+        "label": "Mobile Phone",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "phone",
+        "unique": false
+      },
+      {
+        "name": "Salutation",
+        "label": "Salutation",
+        "byteLength": 120,
+        "caseSensitive": false,
+        "picklistValues": [
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Mr.",
+            "validFor": null,
+            "value": "Mr."
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Ms.",
+            "validFor": null,
+            "value": "Ms."
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Mrs.",
+            "validFor": null,
+            "value": "Mrs."
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Dr.",
+            "validFor": null,
+            "value": "Dr."
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Prof.",
+            "validFor": null,
+            "value": "Prof."
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Mx.",
+            "validFor": null,
+            "value": "Mx."
+          }
+        ],
+        "length": 40,
+        "nameField": false,
+        "nillable": true,
+        "type": "picklist",
+        "unique": false
+      }
+    ],
+    "relatedObjects": [
+      {
+        "name": "Account",
+        "referenceField": "AccountId"
+      }
+    ],
+    "duplicateCheck": [
+      "FirstName",
+      "LastName"
+    ],
+    "recordIds": [],
+    "formats": []
+  },
+  "Opportunity": {
+    "numRecords": 10,
+    "fields": [
+      {
+        "name": "Amount",
+        "label": "Amount",
+        "byteLength": 0,
+        "caseSensitive": false,
+        "precision": 18,
+        "nameField": false,
+        "nillable": true,
+        "type": "currency",
+        "unique": false
+      },
+      {
+        "name": "CloseDate",
+        "label": "Close Date",
+        "byteLength": 0,
+        "caseSensitive": false,
+        "nameField": false,
+        "nillable": false,
+        "type": "date",
+        "unique": false
+      },
+      {
+        "name": "Description",
+        "label": "Description",
+        "byteLength": 96000,
+        "caseSensitive": false,
+        "length": 32000,
+        "nameField": false,
+        "nillable": true,
+        "type": "textarea",
+        "unique": false
+      },
+      {
+        "name": "Name",
+        "label": "Name",
+        "byteLength": 360,
+        "caseSensitive": false,
+        "length": 120,
+        "nameField": true,
+        "nillable": false,
+        "type": "string",
+        "unique": false
+      },
+      {
+        "name": "TotalOpportunityQuantity",
+        "label": "Quantity",
+        "byteLength": 0,
+        "caseSensitive": false,
+        "precision": 18,
+        "nameField": false,
+        "nillable": true,
+        "type": "double",
+        "unique": false
+      },
+      {
+        "name": "StageName",
+        "label": "Stage",
+        "byteLength": 765,
+        "caseSensitive": false,
+        "picklistValues": [
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Qualification",
+            "validFor": null,
+            "value": "Qualification"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Discovery",
+            "validFor": null,
+            "value": "Discovery"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Proposal/Quote",
+            "validFor": null,
+            "value": "Proposal/Quote"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Negotiation",
+            "validFor": null,
+            "value": "Negotiation"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Closed Won",
+            "validFor": null,
+            "value": "Closed Won"
+          },
+          {
+            "active": true,
+            "defaultValue": false,
+            "label": "Closed Lost",
+            "validFor": null,
+            "value": "Closed Lost"
+          }
+        ],
+        "length": 255,
+        "nameField": false,
+        "nillable": false,
+        "type": "picklist",
+        "unique": false
+      }
+    ],
+    "relatedObjects": [
+      {
+        "name": "Account",
+        "referenceField": "AccountId"
+      },
+      {
+        "name": "Contact",
+        "referenceField": "ContactId"
+      }
+    ],
+    "duplicateCheck": [
+      "Name"
+    ],
+    "recordIds": [],
+    "formats": [
+      {
+        "date": "YYYY-MM-DD"
+      }
+    ]
+  }
+}

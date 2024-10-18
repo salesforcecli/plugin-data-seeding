@@ -6,18 +6,24 @@
   "bugs": "https://github.com/forcedotcom/cli/issues",
   "dependencies": {
     "@oclif/core": "^4",
+    "@oclif/multi-stage-output": "^0.7.7",
     "@salesforce/core": "^8.5.3",
     "@salesforce/kit": "^3.2.2",
-    "@salesforce/sf-plugins-core": "^11.3.12"
+    "@salesforce/sf-plugins-core": "^11.3.12",
+    "form-data": "^4.0.0",
+    "got": "^14.4.2",
+    "tough-cookie": "^4.1.4"
   },
   "devDependencies": {
     "@oclif/plugin-command-snapshot": "^5.2.18",
     "@salesforce/cli-plugins-testkit": "^5.3.34",
     "@salesforce/dev-scripts": "^10.2.9",
+    "@types/tough-cookie": "^4.0.5",
     "@salesforce/plugin-command-reference": "^3.1.27",
     "eslint-plugin-sf-plugin": "^1.20.8",
     "oclif": "^4.15.6",
     "ts-node": "^10.9.2",
+    "tsx": "^4.19.0",
     "typescript": "^5.5.4"
   },
   "engines": {
@@ -52,8 +58,16 @@
       "@salesforce/plugin-command-reference"
     ],
     "topics": {
-      "hello": {
-        "description": "Commands to say hello."
+      "data-seeding": {
+        "description": "Migrate real data, generate fake data using GenAI, or deploy data files to target orgs",
+        "subtopics": {
+          "generate": {
+            "description": "Generate fake data using GenAI"
+          },
+          "migrate": {
+            "description": "Migrate real data between orgs"
+          }
+        }
       }
     },
     "flexibleTaxonomy": true

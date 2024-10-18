@@ -1,10 +1,34 @@
 [
   {
     "alias": [],
-    "command": "hello:world",
+    "command": "data-seeding:generate",
     "flagAliases": [],
-    "flagChars": ["n"],
-    "flags": ["flags-dir", "json", "name"],
+    "flagChars": ["f", "o", "s", "w"],
+    "flags": ["async", "config-file", "flags-dir", "json", "source-org", "target-org", "wait"],
+    "plugin": "@salesforce/plugin-data-seeding"
+  },
+  {
+    "alias": [],
+    "command": "data-seeding:generate:report",
+    "flagAliases": [],
+    "flagChars": ["i", "r"],
+    "flags": ["flags-dir", "job-id", "json", "use-most-recent"],
+    "plugin": "@salesforce/plugin-data-seeding"
+  },
+  {
+    "alias": [],
+    "command": "data-seeding:migrate",
+    "flagAliases": [],
+    "flagChars": ["f", "o", "s", "w"],
+    "flags": ["async", "config-file", "flags-dir", "json", "source-org", "target-org", "wait"],
+    "plugin": "@salesforce/plugin-data-seeding"
+  },
+  {
+    "alias": [],
+    "command": "data-seeding:migrate:report",
+    "flagAliases": [],
+    "flagChars": ["i", "r"],
+    "flags": ["flags-dir", "job-id", "json", "use-most-recent"],
     "plugin": "@salesforce/plugin-data-seeding"
   }
 ]
