@@ -15,7 +15,7 @@
     "tough-cookie": "^4.1.4"
   },
   "devDependencies": {
-    "@oclif/plugin-command-snapshot": "^5.2.19",
+    "@oclif/plugin-command-snapshot": "^5.2.21",
     "@salesforce/cli-plugins-testkit": "^5.3.35",
     "@salesforce/dev-scripts": "^10.2.9",
     "@types/tough-cookie": "^4.0.5",
