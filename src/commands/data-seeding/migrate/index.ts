@@ -8,7 +8,7 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Duration } from '@salesforce/kit';
 import { Messages, PollingClient, StatusResult, SfError } from '@salesforce/core';
-import { initiateDataSeed, PollSeedResponse, pollSeedStatus } from '../../../utils/api.js';
+import { initiateDataSeed, PollSeedResponse, pollSeedStatus, initiateJWTMint } from '../../../utils/api.js';
 import { DataSeedingMigrateResult } from '../../../utils/types.js';
 import { getSeedMigrateMso, getSeedMigrateStage as getStage } from '../../../utils/mso.js';
 import { MigrateRequestCache } from '../../../utils/cache.js';
@@ -23,12 +23,12 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
   public static readonly flags = {
     // TODO: The org flags will need to use Flags.requiredOrg() once auth is finalized
-    'target-org': Flags.string({
+    'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
       char: 'o',
       required: true,
     }),
-    'source-org': Flags.string({
+    'source-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.source-org.summary'),
       char: 's',
       required: true,
@@ -55,9 +55,21 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
   public async run(): Promise<DataSeedingMigrateResult> {
     const { flags } = await this.parse(DataSeedingMigrate);
-    const { async, 'config-file': configFile, 'source-org': sourceOrg, 'target-org': targetOrg, wait } = flags;
+    const { async, 'config-file': configFile, 'source-org': sourceOrgObj, 'target-org': targetOrgObj, wait } = flags;
+    
+    const sourceOrg = sourceOrgObj.getOrgId();
+    const srcAccessToken = sourceOrgObj.getConnection().accessToken as string;
+    const srcOrgInstUrl = sourceOrgObj.getConnection().instanceUrl as string;
 
-    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy');
+    const targetOrg = targetOrgObj.getOrgId();
+    const tgtAccessToken = targetOrgObj.getConnection().accessToken as string;
+    const tgtOrgInstUrl = targetOrgObj.getConnection().instanceUrl as string;
+    
+    //Fetch Valid JWT with Data Seed Org Perm
+    const { jwt: jwtValue} = await initiateJWTMint(srcOrgInstUrl,srcAccessToken,tgtOrgInstUrl,tgtAccessToken);
+    this.log("\nValid JWT Token Fetched.");
+
+    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy',jwtValue);
 
     if (!jobId) throw new Error('Failed to receive job id');
 

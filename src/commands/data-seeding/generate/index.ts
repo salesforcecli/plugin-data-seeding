@@ -8,7 +8,7 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Messages, PollingClient, SfError, StatusResult } from '@salesforce/core';
 import { Duration } from '@salesforce/kit';
-import { initiateDataSeed, pollSeedStatus, PollSeedResponse } from '../../../utils/api.js';
+import { initiateDataSeed, pollSeedStatus, PollSeedResponse, initiateJWTMint } from '../../../utils/api.js'
 import { getSeedGenerateMso, getSeedGenerateStage as getStage } from '../../../utils/mso.js';
 import { DataSeedingGenerateResult } from '../../../utils/types.js';
 import { GenerateRequestCache } from '../../../utils/cache.js';
@@ -23,12 +23,12 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
   public static readonly flags = {
     // TODO: The org flags will need to use Flags.requiredOrg() once auth is finalized
-    'target-org': Flags.string({
+    'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
       char: 'o',
       required: true,
     }),
-    'source-org': Flags.string({
+    'source-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.source-org.summary'),
       char: 's',
       required: true,
@@ -55,10 +55,20 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
   public async run(): Promise<DataSeedingGenerateResult> {
     const { flags } = await this.parse(DataSeedingGenerate);
-    const { async, 'config-file': configFile, 'source-org': sourceOrg, 'target-org': targetOrg, wait } = flags;
+    const { async, 'config-file': configFile, 'source-org': srcOrgObj, 'target-org': tgtOrgObj, wait } = flags;
+    
+    const sourceOrg = srcOrgObj.getOrgId();
+    const srcAccessToken = srcOrgObj.getConnection().accessToken as string;
+    const srcOrgInstUrl = srcOrgObj.getConnection().instanceUrl as string;
 
-    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-generation');
-
+    const targetOrg = tgtOrgObj.getOrgId();
+    const tgtAccessToken = tgtOrgObj.getConnection().accessToken as string;
+    const tgtOrgInstUrl = tgtOrgObj.getConnection().instanceUrl as string;
+    
+    //Fetch Valid JWT with Data Seed Org Perm
+    const { jwt: jwtValue} = await initiateJWTMint(srcOrgInstUrl,srcAccessToken,tgtOrgInstUrl,tgtAccessToken );
+    this.log("\nValid JWT Token Fetched.");
+    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-generation',jwtValue);
     const reportMessage = messages.getMessage('report.suggestion', [jobId]);
 
     if (!jobId) throw new Error('Failed to receive job id');
