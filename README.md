@@ -2,7 +2,7 @@
 
 # plugin-data-seeding
 
-[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-data-seeding.svg?label=@salesforce/plugin-data-seeding)](https://www.npmjs.com/package/@salesforce/plugin-data-seeding) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-data-seeding.svg)](https://npmjs.org/package/@salesforce/plugin-data-seeding) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/plugin-data-seeding/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-data-seeding.svg?label=@salesforce/plugin-data-seeding)](https://www.npmjs.com/package/@salesforce/plugin-data-seeding) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-data-seeding.svg)](https://npmjs.org/package/@salesforce/plugin-data-seeding) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/plugin-data-seeding/refs/heads/main/LICENSE.txt)
 
 ## Using the template
 
@@ -166,7 +166,7 @@ EXAMPLES
       ./config/seed-config.json --wait 5
 ```
 
-_See code: [src/commands/data-seeding/generate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.10/src/commands/data-seeding/generate/index.ts)_
+_See code: [src/commands/data-seeding/generate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/main/src/commands/data-seeding/generate/index.ts)_
 
 ## `sf data-seeding generate report`
 
@@ -201,7 +201,7 @@ EXAMPLES
     $ sf data-seeding generate report --use-most-recent
 ```
 
-_See code: [src/commands/data-seeding/generate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.10/src/commands/data-seeding/generate/report.ts)_
+_See code: [src/commands/data-seeding/generate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/main/src/commands/data-seeding/generate/report.ts)_
 
 ## `sf data-seeding migrate`
 
@@ -254,7 +254,7 @@ EXAMPLES
       ./config/data-seed.json --wait 5
 ```
 
-_See code: [src/commands/data-seeding/migrate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.10/src/commands/data-seeding/migrate/index.ts)_
+_See code: [src/commands/data-seeding/migrate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/main/src/commands/data-seeding/migrate/index.ts)_
 
 ## `sf data-seeding migrate report`
 
@@ -289,6 +289,6 @@ EXAMPLES
     $ sf data-seeding migrate report --use-most-recent
 ```
 
-_See code: [src/commands/data-seeding/migrate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/v1.0.10/src/commands/data-seeding/migrate/report.ts)_
+_See code: [src/commands/data-seeding/migrate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/main/src/commands/data-seeding/migrate/report.ts)_
 
 <!-- commandsstop -->

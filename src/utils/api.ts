@@ -30,7 +30,7 @@ export type PollSeedResponse = {
 export type DataSeedingOperation = 'data-generation' | 'data-copy';
 
 // TODO Change to SFAP Endpoint
-const baseUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-gid.sfdc-yfeipo.svc.sfdcfc.net'; 
+const baseUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-gid.sfdc-yfeipo.svc.sfdcfc.net';
 const csrfUrl = `${baseUrl}/get-csrf-token`;
 const seedUrl = `${baseUrl}/data-seed`;
 const pollUrl = `${baseUrl}/status`;
@@ -48,9 +48,13 @@ export const getCsrfToken = (cookieJar: CookieJar): string => {
   return csrfToken;
 };
 
-export const initiateDataSeed = async (config: string, operation: DataSeedingOperation, jwt: string): Promise<SeedResponse> => {
-  //const cookieJar = await getCookieJar();
-  //const csrf = getCsrfToken(cookieJar);
+export const initiateDataSeed = async (
+  config: string,
+  operation: DataSeedingOperation,
+  jwt: string
+): Promise<SeedResponse> => {
+  // const cookieJar = await getCookieJar();
+  // const csrf = getCsrfToken(cookieJar);
   const form = new FormData();
   form.append('config_file', fs.createReadStream(config));
   // TODO : Remove credential file once SFAP is active and dataseed endpoint accepts orgurl and token
@@ -60,11 +64,11 @@ export const initiateDataSeed = async (config: string, operation: DataSeedingOpe
   //       Update the return type as well
   const response = await got.post(seedUrl, {
     throwHttpErrors: false,
-    //cookieJar,
+    // cookieJar,
     headers: {
       ...form.getHeaders(),
       // 'X-CSRFToken': csrf,
-      'Authorization': 'Bearer '+jwt,
+      Authorization: 'Bearer ' + jwt,
     },
     body: form,
   });
@@ -76,31 +80,37 @@ export const initiateDataSeed = async (config: string, operation: DataSeedingOpe
   return JSON.parse(response.body) as SeedResponse;
 };
 
-export const initiateJWTMint = async (src_org_url: string, src_access_token: string, tgt_org_url: string, tgt_access_token: string ): Promise<ServletResponse> => {
-
-  const src_servlet_url = src_org_url+'/dataseed/auth'
-  const response_src = await got.post(src_servlet_url, {
+export const initiateJWTMint = async (
+  srcOrgUrl: string,
+  srcAccessToken: string,
+  tgtOrgUrl: string,
+  tgtAccessToken: string
+): Promise<ServletResponse> => {
+  const srcServletUrl = srcOrgUrl + '/dataseed/auth';
+  const responseSrc = await got.post(srcServletUrl, {
     throwHttpErrors: false,
     headers: {
-      'Authorization': 'Bearer '+src_access_token,
+      Authorization: 'Bearer ' + srcAccessToken,
     },
   });
 
-  if (response_src.statusCode !== 200) {
-    const tgt_servlet_url = tgt_org_url+'/dataseed/auth'
-    const response_tgt = await got.post(tgt_servlet_url, {
+  if (responseSrc.statusCode !== 200) {
+    const tgtServletUrl = tgtOrgUrl + '/dataseed/auth';
+    const responseTgt = await got.post(tgtServletUrl, {
       throwHttpErrors: false,
       headers: {
-        'Authorization': 'Bearer '+tgt_access_token,
+        Authorization: 'Bearer ' + tgtAccessToken,
       },
     });
-    if (response_tgt.statusCode !== 200) {
-      throw new SfError(`Org permission for data seed not found in source & target org.\nSource Response: Error Code : ${response_src.statusCode} - ${response_src.body}.  \nTarget Response: Error Code : ${response_tgt.statusCode} - ${response_tgt.body}`);
+    if (responseTgt.statusCode !== 200) {
+      throw new SfError(
+        `Org permission for data seed not found in source & target org.\nSource Response: Error Code : ${responseSrc.statusCode} - ${responseSrc.body}.  \nTarget Response: Error Code : ${responseTgt.statusCode} - ${responseTgt.body}`
+      );
     }
-    return JSON.parse(response_tgt.body) as ServletResponse;
+    return JSON.parse(responseTgt.body) as ServletResponse;
   }
 
-  return JSON.parse(response_src.body) as ServletResponse;
+  return JSON.parse(responseSrc.body) as ServletResponse;
 };
 
 export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {

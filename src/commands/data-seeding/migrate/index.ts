@@ -56,20 +56,19 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
   public async run(): Promise<DataSeedingMigrateResult> {
     const { flags } = await this.parse(DataSeedingMigrate);
     const { async, 'config-file': configFile, 'source-org': sourceOrgObj, 'target-org': targetOrgObj, wait } = flags;
-    
+
     const sourceOrg = sourceOrgObj.getOrgId();
     const srcAccessToken = sourceOrgObj.getConnection().accessToken as string;
-    const srcOrgInstUrl = sourceOrgObj.getConnection().instanceUrl as string;
+    const srcOrgInstUrl = sourceOrgObj.getConnection().instanceUrl;
 
     const targetOrg = targetOrgObj.getOrgId();
     const tgtAccessToken = targetOrgObj.getConnection().accessToken as string;
-    const tgtOrgInstUrl = targetOrgObj.getConnection().instanceUrl as string;
-    
-    //Fetch Valid JWT with Data Seed Org Perm
-    const { jwt: jwtValue} = await initiateJWTMint(srcOrgInstUrl,srcAccessToken,tgtOrgInstUrl,tgtAccessToken);
-    this.log("\nValid JWT Token Fetched.");
+    const tgtOrgInstUrl = targetOrgObj.getConnection().instanceUrl;
 
-    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy',jwtValue);
+    // Fetch Valid JWT with Data Seed Org Perm
+    const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+
+    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy', jwtValue);
 
     if (!jobId) throw new Error('Failed to receive job id');
 
