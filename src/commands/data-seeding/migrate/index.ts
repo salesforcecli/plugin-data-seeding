@@ -67,8 +67,15 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
     // Fetch Valid JWT with Data Seed Org Perm
     const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
-
-    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy', jwtValue);
+    const { request_id: jobId } = await initiateDataSeed(
+      configFile,
+      'data-copy',
+      jwtValue,
+      srcOrgInstUrl,
+      srcAccessToken,
+      tgtOrgInstUrl,
+      tgtAccessToken
+    );
 
     if (!jobId) throw new Error('Failed to receive job id');
 

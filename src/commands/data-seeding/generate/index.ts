@@ -67,7 +67,15 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
     // Fetch Valid JWT with Data Seed Org Perm
     const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
-    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-generation', jwtValue);
+    const { request_id: jobId } = await initiateDataSeed(
+      configFile,
+      'data-generation',
+      jwtValue,
+      srcOrgInstUrl,
+      srcAccessToken,
+      tgtOrgInstUrl,
+      tgtAccessToken
+    );
     const reportMessage = messages.getMessage('report.suggestion', [jobId]);
 
     if (!jobId) throw new Error('Failed to receive job id');
