@@ -43,7 +43,7 @@ export default class DataSeedingGenerateReport extends SfCommand<DataSeedingRepo
 
     if (!jobId) throw new SfError('No job ID provided or found in cache');
 
-    const response = await pollSeedStatus(jobId,"");
+    const response = await pollSeedStatus(jobId, '');
 
     const data = {
       jobId,

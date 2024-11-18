@@ -101,8 +101,13 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
 
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
-          const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
-          const response = await pollSeedStatus(jobId,jwtValue);
+          const { jwt: jwtValueNew } = await initiateJWTMint(
+            srcOrgInstUrl,
+            srcAccessToken,
+            tgtOrgInstUrl,
+            tgtAccessToken
+          );
+          const response = await pollSeedStatus(jobId, jwtValueNew);
 
           mso.goto(getStage(response.step), {
             startTime: response.execution_start_time,
@@ -153,8 +158,8 @@ export default class DataSeedingGenerate extends SfCommand<DataSeedingGenerateRe
         throw err;
       }
     } else {
-      const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
-      const response = await pollSeedStatus(jobId,jwtValue);
+      const { jwt: jwtValueNew } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+      const response = await pollSeedStatus(jobId, jwtValueNew);
 
       const mso = getSeedGenerateMso({
         jsonEnabled: this.jsonEnabled(),

@@ -12,7 +12,7 @@ import { getSeedMigrateMso, getSeedMigrateStage as getStage } from '../../../uti
 import { DataSeedingReportResult } from '../../../utils/types.js';
 import { MigrateRequestCache } from '../../../utils/cache.js';
 
-Messages.importMessagesDirectoryFromMetaUrl(import.meta.url)
+Messages.importMessagesDirectoryFromMetaUrl(import.meta.url);
 const messages = Messages.loadMessages('@salesforce/plugin-data-seeding', 'data-seeding.migrate.report');
 
 export default class DataSeedingMigrateReport extends SfCommand<DataSeedingReportResult> {
@@ -40,7 +40,7 @@ export default class DataSeedingMigrateReport extends SfCommand<DataSeedingRepor
 
     if (!jobId) throw new SfError('No job ID provided or found in cache');
 
-    const response = await pollSeedStatus(jobId,"");
+    const response = await pollSeedStatus(jobId, '');
 
     const data = {
       jobId,

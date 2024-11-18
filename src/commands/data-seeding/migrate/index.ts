@@ -102,8 +102,13 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
-          const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
-          const response = await pollSeedStatus(jobId,jwtValue);
+          const { jwt: jwtValueNew } = await initiateJWTMint(
+            srcOrgInstUrl,
+            srcAccessToken,
+            tgtOrgInstUrl,
+            tgtAccessToken
+          );
+          const response = await pollSeedStatus(jobId, jwtValueNew);
 
           mso.goto(getStage(response.step), {
             startTime: response.execution_start_time,
@@ -156,8 +161,8 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
         throw err;
       }
     } else {
-      const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
-      const response = await pollSeedStatus(jobId,jwtValue);
+      const { jwt: jwtValueNew } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+      const response = await pollSeedStatus(jobId, jwtValueNew);
 
       const mso = getSeedMigrateMso({
         jsonEnabled: this.jsonEnabled(),
