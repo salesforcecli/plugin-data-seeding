@@ -74,7 +74,8 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
       srcOrgInstUrl,
       srcAccessToken,
       tgtOrgInstUrl,
-      tgtAccessToken
+      tgtAccessToken,
+      sourceOrg
     );
 
     if (!jobId) throw new Error('Failed to receive job id');
@@ -101,7 +102,8 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
-          const response = await pollSeedStatus(jobId);
+          const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+          const response = await pollSeedStatus(jobId,jwtValue);
 
           mso.goto(getStage(response.step), {
             startTime: response.execution_start_time,
@@ -154,7 +156,8 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
         throw err;
       }
     } else {
-      const response = await pollSeedStatus(jobId);
+      const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+      const response = await pollSeedStatus(jobId,jwtValue);
 
       const mso = getSeedMigrateMso({
         jsonEnabled: this.jsonEnabled(),

@@ -28,6 +28,7 @@ type MsoGet = string | undefined;
 //  - They have been converted to lowercase for later comparison
 // The values in this Map are used as the stage names in mso
 const seedGenerateStagesMap = new Map<string, string>([
+  ['init','Initializing'],
   ['querying source org', 'Querying Source Org'],
   ['data generation', 'Data Generation'],
   ['populating target org', 'Populating Target Org'],

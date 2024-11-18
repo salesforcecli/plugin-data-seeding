@@ -35,7 +35,7 @@ export type DataSeedingOperation = 'data-generation' | 'data-copy';
 const baseUrl = 'https://api.salesforce.com/platform/data-seed/v1';
 const seedUrl = `${baseUrl}/data-seed`;
 const pollUrl = `${baseUrl}/status`;
-
+const sfRegion = 'us-east-1'
 export const initiateDataSeed = async (
   config: string,
   operation: DataSeedingOperation,
@@ -43,7 +43,8 @@ export const initiateDataSeed = async (
   srcOrgUrl: string,
   srcAccessToken: string,
   tgtOrgUrl: string,
-  tgtAccessToken: string
+  tgtAccessToken: string,
+  srcOrgId: string
 ): Promise<SeedResponse> => {
   const form = new FormData();
   form.append('config_file', fs.createReadStream(config));
@@ -52,6 +53,7 @@ export const initiateDataSeed = async (
   form.append('source_instance_url', srcOrgUrl);
   form.append('target_access_token', tgtAccessToken);
   form.append('target_instance_url', tgtOrgUrl);
+  form.append('source_org_id',srcOrgId);
   // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
   //       Update the return type as well
   const response = await got.post(seedUrl, {
@@ -59,6 +61,7 @@ export const initiateDataSeed = async (
     headers: {
       ...form.getHeaders(),
       Authorization: `Bearer ${jwt}`,
+      'x-salesforce-region':sfRegion,
     },
     body: form,
   });
@@ -110,12 +113,16 @@ const callAuthServlet = async (url: string, accessToken: string): Promise<AuthSe
   };
 };
 
-export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {
+export const pollSeedStatus = async (jobId: string, jwt: string): Promise<PollSeedResponse> => {
   const logger = await Logger.child('PollSeedStatus');
 
   // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
   //       Update the return type as well
-  const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false });
+  const headers = {
+    Authorization: `Bearer ${jwt}`,
+    'x-salesforce-region': sfRegion,
+  };
+  const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false, headers });
 
   if (response.statusCode !== 200) {
     // TODO: Print error body once the Error response is changed to be JSON
