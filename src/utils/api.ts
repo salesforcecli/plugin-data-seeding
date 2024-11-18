@@ -7,12 +7,18 @@
 
 import fs from 'node:fs';
 import got from 'got';
-import { CookieJar } from 'tough-cookie';
 import FormData from 'form-data';
 import { SfError, Logger } from '@salesforce/core';
 
 export type SeedResponse = {
   request_id: string;
+};
+export type ServletResponse = {
+  jwt: string;
+};
+export type AuthServletResponse = {
+  statusCode: string;
+  body: string;
 };
 
 export type PollSeedResponse = {
@@ -26,41 +32,36 @@ export type PollSeedResponse = {
 
 export type DataSeedingOperation = 'data-generation' | 'data-copy';
 
-const baseUrl = process.env.SF_DATA_SEEDING_URL ?? 'https://data-seed-scratchpad5.sfdc-3vx9f4.svc.sfdcfc.net';
-const csrfUrl = `${baseUrl}/get-csrf-token`;
+const baseUrl = 'https://api.salesforce.com/platform/data-seed/v1';
 const seedUrl = `${baseUrl}/data-seed`;
 const pollUrl = `${baseUrl}/status`;
-
-export const getCookieJar = async (): Promise<CookieJar> => {
-  const cookieJar = new CookieJar();
-  await got(csrfUrl, { cookieJar });
-  return cookieJar;
-};
-
-export const getCsrfToken = (cookieJar: CookieJar): string => {
-  const csrfToken = cookieJar.getCookiesSync(csrfUrl).find((cookie) => cookie.key === 'csrf_token')?.value;
-  if (!csrfToken) throw new SfError('Failed to obtain CSRF token');
-
-  return csrfToken;
-};
-
-export const initiateDataSeed = async (config: string, operation: DataSeedingOperation): Promise<SeedResponse> => {
-  const cookieJar = await getCookieJar();
-  const csrf = getCsrfToken(cookieJar);
-
+const sfRegion = 'us-east-1'
+export const initiateDataSeed = async (
+  config: string,
+  operation: DataSeedingOperation,
+  jwt: string,
+  srcOrgUrl: string,
+  srcAccessToken: string,
+  tgtOrgUrl: string,
+  tgtAccessToken: string,
+  srcOrgId: string
+): Promise<SeedResponse> => {
   const form = new FormData();
   form.append('config_file', fs.createReadStream(config));
-  form.append('credentials_file', fs.createReadStream('ignore/credentials.txt'));
   form.append('operation', operation);
-
+  form.append('source_access_token', srcAccessToken);
+  form.append('source_instance_url', srcOrgUrl);
+  form.append('target_access_token', tgtAccessToken);
+  form.append('target_instance_url', tgtOrgUrl);
+  form.append('source_org_id',srcOrgId);
   // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
   //       Update the return type as well
   const response = await got.post(seedUrl, {
     throwHttpErrors: false,
-    cookieJar,
     headers: {
       ...form.getHeaders(),
-      'X-CSRFToken': csrf,
+      Authorization: `Bearer ${jwt}`,
+      'x-salesforce-region':sfRegion,
     },
     body: form,
   });
@@ -72,12 +73,56 @@ export const initiateDataSeed = async (config: string, operation: DataSeedingOpe
   return JSON.parse(response.body) as SeedResponse;
 };
 
-export const pollSeedStatus = async (jobId: string): Promise<PollSeedResponse> => {
+export const initiateJWTMint = async (
+  srcOrgUrl: string,
+  srcAccessToken: string,
+  tgtOrgUrl: string,
+  tgtAccessToken: string
+): Promise<ServletResponse> => {
+  const srcServletUrl = `${srcOrgUrl}/dataseed/auth`;
+  const tgtServletUrl = `${tgtOrgUrl}/dataseed/auth`;
+
+  const [responseSrc, responseTgt] = await Promise.all([
+    callAuthServlet(srcServletUrl, srcAccessToken),
+    callAuthServlet(tgtServletUrl, tgtAccessToken),
+  ]);
+
+  if (responseSrc.statusCode === '200') {
+    return JSON.parse(responseSrc.body) as ServletResponse;
+  }
+
+  if (responseTgt.statusCode === '200') {
+    return JSON.parse(responseTgt.body) as ServletResponse;
+  }
+
+  throw new SfError(
+    `Org permission for data seed not found in either the source or target org.\nSource Response: Error Code : ${responseSrc.statusCode} - ${responseSrc.body}.  \nTarget Response: Error Code : ${responseTgt.statusCode} - ${responseTgt.body}`
+  );
+};
+
+const callAuthServlet = async (url: string, accessToken: string): Promise<AuthServletResponse> => {
+  const response = await got.post(url, {
+    throwHttpErrors: false,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  return {
+    statusCode: response.statusCode.toString(), // Convert to string
+    body: response.body,
+  };
+};
+
+export const pollSeedStatus = async (jobId: string, jwt: string): Promise<PollSeedResponse> => {
   const logger = await Logger.child('PollSeedStatus');
 
   // TODO: Update to use .json() instead of JSON.parse once the Error response is changed to be JSON
   //       Update the return type as well
-  const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false });
+  const headers = {
+    Authorization: `Bearer ${jwt}`,
+    'x-salesforce-region': sfRegion,
+  };
+  const response = await got.get(`${pollUrl}/${jobId}`, { throwHttpErrors: false, headers });
 
   if (response.statusCode !== 200) {
     // TODO: Print error body once the Error response is changed to be JSON

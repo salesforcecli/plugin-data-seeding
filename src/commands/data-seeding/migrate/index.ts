@@ -8,7 +8,7 @@
 import { SfCommand, Flags } from '@salesforce/sf-plugins-core';
 import { Duration } from '@salesforce/kit';
 import { Messages, PollingClient, StatusResult, SfError } from '@salesforce/core';
-import { initiateDataSeed, PollSeedResponse, pollSeedStatus } from '../../../utils/api.js';
+import { initiateDataSeed, PollSeedResponse, pollSeedStatus, initiateJWTMint } from '../../../utils/api.js';
 import { DataSeedingMigrateResult } from '../../../utils/types.js';
 import { getSeedMigrateMso, getSeedMigrateStage as getStage } from '../../../utils/mso.js';
 import { MigrateRequestCache } from '../../../utils/cache.js';
@@ -23,12 +23,12 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
   public static readonly flags = {
     // TODO: The org flags will need to use Flags.requiredOrg() once auth is finalized
-    'target-org': Flags.string({
+    'target-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.target-org.summary'),
       char: 'o',
       required: true,
     }),
-    'source-org': Flags.string({
+    'source-org': Flags.requiredOrg({
       summary: messages.getMessage('flags.source-org.summary'),
       char: 's',
       required: true,
@@ -55,9 +55,28 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
   public async run(): Promise<DataSeedingMigrateResult> {
     const { flags } = await this.parse(DataSeedingMigrate);
-    const { async, 'config-file': configFile, 'source-org': sourceOrg, 'target-org': targetOrg, wait } = flags;
+    const { async, 'config-file': configFile, 'source-org': sourceOrgObj, 'target-org': targetOrgObj, wait } = flags;
 
-    const { request_id: jobId } = await initiateDataSeed(configFile, 'data-copy');
+    const sourceOrg = sourceOrgObj.getOrgId();
+    const srcAccessToken = sourceOrgObj.getConnection().accessToken as string;
+    const srcOrgInstUrl = sourceOrgObj.getConnection().instanceUrl;
+
+    const targetOrg = targetOrgObj.getOrgId();
+    const tgtAccessToken = targetOrgObj.getConnection().accessToken as string;
+    const tgtOrgInstUrl = targetOrgObj.getConnection().instanceUrl;
+
+    // Fetch Valid JWT with Data Seed Org Perm
+    const { jwt: jwtValue } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+    const { request_id: jobId } = await initiateDataSeed(
+      configFile,
+      'data-copy',
+      jwtValue,
+      srcOrgInstUrl,
+      srcAccessToken,
+      tgtOrgInstUrl,
+      tgtAccessToken,
+      sourceOrg
+    );
 
     if (!jobId) throw new Error('Failed to receive job id');
 
@@ -83,7 +102,13 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
       const options: PollingClient.Options = {
         poll: async (): Promise<StatusResult> => {
-          const response = await pollSeedStatus(jobId);
+          const { jwt: jwtValueNew } = await initiateJWTMint(
+            srcOrgInstUrl,
+            srcAccessToken,
+            tgtOrgInstUrl,
+            tgtAccessToken
+          );
+          const response = await pollSeedStatus(jobId, jwtValueNew);
 
           mso.goto(getStage(response.step), {
             startTime: response.execution_start_time,
@@ -136,7 +161,8 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
         throw err;
       }
     } else {
-      const response = await pollSeedStatus(jobId);
+      const { jwt: jwtValueNew } = await initiateJWTMint(srcOrgInstUrl, srcAccessToken, tgtOrgInstUrl, tgtAccessToken);
+      const response = await pollSeedStatus(jobId, jwtValueNew);
 
       const mso = getSeedMigrateMso({
         jsonEnabled: this.jsonEnabled(),
