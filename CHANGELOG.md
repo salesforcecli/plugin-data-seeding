@@ -1,3 +1,9 @@
+## [1.1.3](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.2...1.1.3) (2024-11-19)
+
+### Bug Fixes
+
+- @W-17233341 - disabling ctc ([d8efb1c](https://github.com/salesforcecli/plugin-data-seeding/commit/d8efb1cd702bb5a86d65451a3c397281830b0ff1))
+
 ## [1.1.2](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.1...1.1.2) (2024-11-19)
 
 ### Bug Fixes
