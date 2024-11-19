@@ -1,3 +1,9 @@
+## [1.1.1](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.0...1.1.1) (2024-11-19)
+
+### Bug Fixes
+
+- @W-17233341 - yarn path-to-regexp version fix ([ad811f9](https://github.com/salesforcecli/plugin-data-seeding/commit/ad811f9d3b11112c8a30db33bea8aa56c269c9a4))
+
 # [1.1.0](https://github.com/salesforcecli/plugin-data-seeding/compare/1.0.10...1.1.0) (2024-11-19)
 
 ### Bug Fixes
