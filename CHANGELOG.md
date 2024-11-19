@@ -1,3 +1,9 @@
+## [1.1.2](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.1...1.1.2) (2024-11-19)
+
+### Bug Fixes
+
+- @W-17233341 - minor test change ([40141e6](https://github.com/salesforcecli/plugin-data-seeding/commit/40141e62a448733694002b5a7bbe2473aab74695))
+
 ## [1.1.1](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.0...1.1.1) (2024-11-19)
 
 ### Bug Fixes
