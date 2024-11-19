@@ -4635,23 +4635,6 @@ got@^13:
     p-cancelable "^3.0.0"
     responselike "^3.0.0"
 
-got@^14.4.4:
-  version "14.4.4"
-  resolved "https://registry.yarnpkg.com/got/-/got-14.4.4.tgz#de6ae81e09dea32f11295e7896fd9fd80a49dbcd"
-  integrity sha512-tqiF7eSgTBwQkxb1LxsEpva8TaMYVisbhplrFVmw9GQE3855Z+MH/mnsXLLOkDxR6hZJRFMj5VTAZ8lmTF8ZOA==
-  dependencies:
-    "@sindresorhus/is" "^7.0.1"
-    "@szmarczak/http-timer" "^5.0.1"
-    cacheable-lookup "^7.0.0"
-    cacheable-request "^12.0.1"
-    decompress-response "^6.0.0"
-    form-data-encoder "^4.0.2"
-    http2-wrapper "^2.2.1"
-    lowercase-keys "^3.0.0"
-    p-cancelable "^4.0.1"
-    responselike "^3.0.0"
-    type-fest "^4.26.1"
-
 graceful-fs@4.2.10:
   version "4.2.10"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.2.10.tgz#147d3a006da4ca3ce14728c7aefc287c367d7a6c"
