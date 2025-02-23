@@ -22,7 +22,7 @@
     "eslint-plugin-sf-plugin": "^1.20.14",
     "oclif": "^4.17.30",
     "ts-node": "^10.9.2",
-    "tsx": "^4.19.2",
+    "tsx": "^4.19.3",
     "typescript": "^5.5.4"
   },
   "engines": {
