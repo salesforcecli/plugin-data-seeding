@@ -19,7 +19,7 @@
     "@salesforce/dev-scripts": "^10.2.9",
     "@salesforce/plugin-command-reference": "^3.1.45",
     "@types/tough-cookie": "^4.0.5",
-    "eslint-plugin-sf-plugin": "^1.20.15",
+    "eslint-plugin-sf-plugin": "^1.20.16",
     "oclif": "^4.17.34",
     "ts-node": "^10.9.2",
     "tsx": "^4.19.3",
