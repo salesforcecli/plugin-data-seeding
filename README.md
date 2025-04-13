@@ -166,7 +166,7 @@ EXAMPLES
       ./config/seed-config.json --wait 5
 ```
 
-_See code: [src/commands/data-seeding/generate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.27/src/commands/data-seeding/generate/index.ts)_
+_See code: [src/commands/data-seeding/generate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.28/src/commands/data-seeding/generate/index.ts)_
 
 ## `sf data-seeding generate report`
 
@@ -201,7 +201,7 @@ EXAMPLES
     $ sf data-seeding generate report --use-most-recent
 ```
 
-_See code: [src/commands/data-seeding/generate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.27/src/commands/data-seeding/generate/report.ts)_
+_See code: [src/commands/data-seeding/generate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.28/src/commands/data-seeding/generate/report.ts)_
 
 ## `sf data-seeding migrate`
 
@@ -254,7 +254,7 @@ EXAMPLES
       ./config/data-seed.json --wait 5
 ```
 
-_See code: [src/commands/data-seeding/migrate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.27/src/commands/data-seeding/migrate/index.ts)_
+_See code: [src/commands/data-seeding/migrate/index.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.28/src/commands/data-seeding/migrate/index.ts)_
 
 ## `sf data-seeding migrate report`
 
@@ -289,6 +289,6 @@ EXAMPLES
     $ sf data-seeding migrate report --use-most-recent
 ```
 
-_See code: [src/commands/data-seeding/migrate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.27/src/commands/data-seeding/migrate/report.ts)_
+_See code: [src/commands/data-seeding/migrate/report.ts](https://github.com/salesforcecli/plugin-data-seeding/blob/1.1.28/src/commands/data-seeding/migrate/report.ts)_
 
 <!-- commandsstop -->
