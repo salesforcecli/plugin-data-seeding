@@ -1,3 +1,9 @@
+## [1.1.37](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.36...1.1.37) (2025-06-08)
+
+### Bug Fixes
+
+- **deps:** bump form-data from 4.0.2 to 4.0.3 ([2aa602e](https://github.com/salesforcecli/plugin-data-seeding/commit/2aa602e1ed00bad76b63b30b79e7cc44a1750c1f))
+
 ## [1.1.36](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.35...1.1.36) (2025-06-01)
 
 ### Bug Fixes
