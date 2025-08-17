@@ -2,7 +2,7 @@
 
 # plugin-data-seeding
 
-[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-data-seeding.svg?label=@salesforce/plugin-data-seeding)](https://www.npmjs.com/package/@salesforce/plugin-data-seeding) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-data-seeding.svg)](https://npmjs.org/package/@salesforce/plugin-data-seeding) [![License](https://img.shields.io/badge/License-BSD%203--Clause-brightgreen.svg)](https://raw.githubusercontent.com/salesforcecli/plugin-data-seeding/main/LICENSE.txt)
+[![NPM](https://img.shields.io/npm/v/@salesforce/plugin-data-seeding.svg?label=@salesforce/plugin-data-seeding)](https://www.npmjs.com/package/@salesforce/plugin-data-seeding) [![Downloads/week](https://img.shields.io/npm/dw/@salesforce/plugin-data-seeding.svg)](https://npmjs.org/package/@salesforce/plugin-data-seeding) [![License](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](https://opensource.org/license/apache-2-0)
 
 ## Using the template
 
