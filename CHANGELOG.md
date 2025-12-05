@@ -1,3 +1,9 @@
+## [1.1.73](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.72...1.1.73) (2025-12-05)
+
+### Bug Fixes
+
+- **deps:** bump jws from 3.2.2 to 3.2.3 ([44ea252](https://github.com/salesforcecli/plugin-data-seeding/commit/44ea252e8d7067b402987390f07bec8993a55721))
+
 ## [1.1.72](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.71...1.1.72) (2025-11-23)
 
 ### Bug Fixes
