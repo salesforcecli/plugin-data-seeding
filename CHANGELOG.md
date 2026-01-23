@@ -1,3 +1,9 @@
+## [1.1.76](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.75...1.1.76) (2026-01-23)
+
+### Bug Fixes
+
+- **deps:** bump lodash from 4.17.21 to 4.17.23 ([811d690](https://github.com/salesforcecli/plugin-data-seeding/commit/811d690ac57384c32c1ed5bae0512015de025da8))
+
 ## [1.1.75](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.74...1.1.75) (2026-01-18)
 
 ### Bug Fixes
