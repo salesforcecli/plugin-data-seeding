@@ -1,3 +1,9 @@
+## [1.1.77](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.76...1.1.77) (2026-01-25)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/core from 8.24.3 to 8.25.0 ([4ac7d8f](https://github.com/salesforcecli/plugin-data-seeding/commit/4ac7d8f68aa2d074be456f1ad9e71fbd945fff58))
+
 ## [1.1.76](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.75...1.1.76) (2026-01-23)
 
 ### Bug Fixes
