@@ -1,3 +1,9 @@
+## [1.1.86](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.85...1.1.86) (2026-03-20)
+
+### Bug Fixes
+
+- **deps:** bump flatted from 3.2.7 to 3.4.2 ([0e9beb2](https://github.com/salesforcecli/plugin-data-seeding/commit/0e9beb27164033fcfb2834d1b03c670826256f04))
+
 ## [1.1.85](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.84...1.1.85) (2026-03-15)
 
 ### Bug Fixes
