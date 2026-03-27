@@ -1,3 +1,9 @@
+## [1.1.90](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.89...1.1.90) (2026-03-27)
+
+### Bug Fixes
+
+- **deps:** bump handlebars from 4.7.8 to 4.7.9 ([334a2e7](https://github.com/salesforcecli/plugin-data-seeding/commit/334a2e71d619955fa3046930237050131730242f))
+
 ## [1.1.89](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.88...1.1.89) (2026-03-24)
 
 ### Bug Fixes
