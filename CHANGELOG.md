@@ -1,3 +1,9 @@
+## [1.1.101](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.100...1.1.101) (2026-05-09)
+
+### Bug Fixes
+
+- **deps:** bump fast-xml-builder from 1.0.0 to 1.2.0 ([408eb43](https://github.com/salesforcecli/plugin-data-seeding/commit/408eb4312356ad8a2025b111f56381c3c01ba22d))
+
 ## [1.1.100](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.99...1.1.100) (2026-05-09)
 
 ### Bug Fixes
