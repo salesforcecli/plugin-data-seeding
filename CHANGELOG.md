@@ -1,3 +1,9 @@
+## [1.1.105](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.104...1.1.105) (2026-05-17)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/core from 4.11.2 to 4.11.3 ([90b3044](https://github.com/salesforcecli/plugin-data-seeding/commit/90b304419df7362bfb2710d8b735106a1354d729))
+
 ## [1.1.104](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.103...1.1.104) (2026-05-17)
 
 ### Bug Fixes
