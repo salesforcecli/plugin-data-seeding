@@ -1,3 +1,9 @@
+## [1.1.110](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.109...1.1.110) (2026-05-31)
+
+### Bug Fixes
+
+- **deps:** bump @oclif/multi-stage-output from 0.8.42 to 0.8.44 ([1b0ad37](https://github.com/salesforcecli/plugin-data-seeding/commit/1b0ad378d1581cfc4f1c264f4f64e2ef50b55e5d))
+
 ## [1.1.109](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.108...1.1.109) (2026-05-24)
 
 ### Bug Fixes
