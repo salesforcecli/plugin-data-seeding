@@ -1,3 +1,9 @@
+## [1.1.111](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.110...1.1.111) (2026-06-13)
+
+### Bug Fixes
+
+- **deps:** bump esbuild from 0.28.0 to 0.28.1 ([50cd39a](https://github.com/salesforcecli/plugin-data-seeding/commit/50cd39a9dcee4eb84ccc1987615ce81c46adcdb3))
+
 ## [1.1.110](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.109...1.1.110) (2026-05-31)
 
 ### Bug Fixes
