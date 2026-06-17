@@ -1,3 +1,9 @@
+## [1.1.115](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.114...1.1.115) (2026-06-17)
+
+### Bug Fixes
+
+- **deps:** bump @babel/core from 7.25.2 to 7.29.7 ([94f0b52](https://github.com/salesforcecli/plugin-data-seeding/commit/94f0b5265ca1f9cb67b180dde85d65ea69455653))
+
 ## [1.1.114](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.113...1.1.114) (2026-06-17)
 
 ### Bug Fixes
