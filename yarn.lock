@@ -1698,13 +1698,13 @@
   dependencies:
     "@salesforce/ts-types" "^2.0.12"
 
-"@salesforce/plugin-command-reference@^3.1.113":
-  version "3.1.113"
-  resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-3.1.113.tgz#b4f7919b9dfc24cb7bd886d4dade2d4c1488034f"
-  integrity sha512-e/NE82CeCX4r8nQi/m1p/3cI32mzf/5En8xCejTrVcfKCvHgDegZX1Ly66cNFtYkSbfMbHvOqMoOgPOO0dBGlA==
+"@salesforce/plugin-command-reference@^3.1.116":
+  version "3.1.116"
+  resolved "https://registry.yarnpkg.com/@salesforce/plugin-command-reference/-/plugin-command-reference-3.1.116.tgz#8736303aa177f31f92fda3e9ad7d8441f044c9fa"
+  integrity sha512-QyFh4LkVOiVxDGu5InaM7PlHvsV4KdEtsfdeMV367Dq4pp6qYQ/zD4bU8/B4WTSrDjcYVc5GN3XDQovJYw7TiA==
   dependencies:
     "@oclif/core" "^4"
-    "@salesforce/core" "^8.31.1"
+    "@salesforce/core" "^8.31.2"
     "@salesforce/kit" "^3.2.6"
     "@salesforce/sf-plugins-core" "^12.2.24"
     "@salesforce/ts-types" "^2.0.11"
@@ -6510,7 +6510,7 @@ semver@^6.0.0, semver@^6.3.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.3.1.tgz#556d2ef8689146e46dcea4bfdd095f3434dffcb4"
   integrity sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==
 
-semver@^7.3.4, semver@^7.3.5, semver@^7.5.4, semver@^7.6.0, semver@^7.8.0, semver@^7.8.1, semver@^7.8.4, semver@^7.8.5:
+semver@^7.3.4, semver@^7.3.5, semver@^7.5.4, semver@^7.6.0, semver@^7.8.0, semver@^7.8.1, semver@^7.8.5:
   version "7.8.5"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.8.5.tgz#39b646037dd50c14fb451e7e4cac58ed8b863f69"
   integrity sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==
