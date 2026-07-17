@@ -1,3 +1,9 @@
+## [1.1.122](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.121...1.1.122) (2026-07-17)
+
+### Bug Fixes
+
+- **deps:** bump websocket-driver from 0.7.4 to 0.7.5 ([8d4cd80](https://github.com/salesforcecli/plugin-data-seeding/commit/8d4cd80da69f2bfdeff4b9817cc6b43a97c28911))
+
 ## [1.1.121](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.120...1.1.121) (2026-07-12)
 
 ### Bug Fixes
