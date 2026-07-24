@@ -1,3 +1,9 @@
+## [1.1.124](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.123...1.1.124) (2026-07-24)
+
+### Bug Fixes
+
+- **deps:** bump linkify-it from 5.0.1 to 5.0.2 ([74051a2](https://github.com/salesforcecli/plugin-data-seeding/commit/74051a2b0435087f07d472658ab433df0e8c3409))
+
 ## [1.1.123](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.122...1.1.123) (2026-07-19)
 
 ### Bug Fixes
