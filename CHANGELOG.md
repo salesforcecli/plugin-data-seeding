@@ -1,3 +1,9 @@
+## [1.1.129](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.128...1.1.129) (2026-08-04)
+
+### Bug Fixes
+
+- **deps:** bump undici from 8.5.0 to 8.10.0 ([287f869](https://github.com/salesforcecli/plugin-data-seeding/commit/287f86984d4e2dcdfa16fae5d3c68b89f43b6013))
+
 ## [1.1.128](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.127...1.1.128) (2026-08-02)
 
 ### Bug Fixes
