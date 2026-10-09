@@ -1,3 +1,9 @@
+## [1.1.134](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.133...1.1.134) (2026-10-09)
+
+### Bug Fixes
+
+- **deps:** bump fast-copy from 3.0.2 to 3.1.0 ([9fdf66a](https://github.com/salesforcecli/plugin-data-seeding/commit/9fdf66a17551f7349ca2a5a5ce16ba8cc8559229))
+
 ## [1.1.133](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.132...1.1.133) (2026-10-09)
 
 ### Bug Fixes
