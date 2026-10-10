@@ -1,3 +1,9 @@
+## [1.1.138](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.137...1.1.138) (2026-10-10)
+
+### Bug Fixes
+
+- **deps:** bump baseline-browser-mapping from 2.10.37 to 2.11.22 ([f68a508](https://github.com/salesforcecli/plugin-data-seeding/commit/f68a508df4432be32175b9a4b323081c2c0ec7c6))
+
 ## [1.1.137](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.136...1.1.137) (2026-10-10)
 
 ### Bug Fixes
