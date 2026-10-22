@@ -1,3 +1,9 @@
+## [1.1.142](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.141...1.1.142) (2026-10-22)
+
+### Bug Fixes
+
+- **deps:** bump markdown-it from 14.3.2 to 14.3.3 ([e4dfd6b](https://github.com/salesforcecli/plugin-data-seeding/commit/e4dfd6bd493c40dca11a60b0233a4cb112612240))
+
 ## [1.1.141](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.140...1.1.141) (2026-10-18)
 
 ### Bug Fixes
