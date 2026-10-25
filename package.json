@@ -20,7 +20,7 @@
     "@salesforce/plugin-command-reference": "^3.1.134",
     "@types/tough-cookie": "^4.0.5",
     "eslint-plugin-sf-plugin": "^1.20.33",
-    "oclif": "^5.0.0",
+    "oclif": "^5.0.2",
     "ts-node": "^10.9.2",
     "tsx": "^4.23.15",
     "typescript": "^5.5.4"
