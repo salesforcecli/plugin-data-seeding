@@ -1,3 +1,9 @@
+## [1.1.144](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.143...1.1.144) (2026-10-25)
+
+### Bug Fixes
+
+- **deps:** bump zod from 4.1.13 to 4.6.7 ([baf5a78](https://github.com/salesforcecli/plugin-data-seeding/commit/baf5a786b3f7a96efea2ad0aaddc5e05b0755c4c))
+
 ## [1.1.143](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.142...1.1.143) (2026-10-25)
 
 ### Bug Fixes
