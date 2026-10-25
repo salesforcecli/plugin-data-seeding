@@ -1,3 +1,9 @@
+## [1.1.145](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.144...1.1.145) (2026-10-25)
+
+### Bug Fixes
+
+- **deps:** bump fast-uri from 3.1.8 to 3.1.9 ([dd216ca](https://github.com/salesforcecli/plugin-data-seeding/commit/dd216ca5f9eeab2ad7b067c962e616e48f182951))
+
 ## [1.1.144](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.143...1.1.144) (2026-10-25)
 
 ### Bug Fixes
