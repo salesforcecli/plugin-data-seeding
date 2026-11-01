@@ -1,3 +1,9 @@
+## [1.1.147](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.146...1.1.147) (2026-11-01)
+
+### Bug Fixes
+
+- **deps:** bump brace-expansion from 1.1.11 to 1.1.21 ([153b700](https://github.com/salesforcecli/plugin-data-seeding/commit/153b700fe525327bf714e13ff2e4bcddff2f322e))
+
 ## [1.1.146](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.145...1.1.146) (2026-10-26)
 
 ### Bug Fixes
