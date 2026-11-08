@@ -1,3 +1,9 @@
+## [1.1.151](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.150...1.1.151) (2026-11-08)
+
+### Bug Fixes
+
+- **deps:** bump @salesforce/kit from 4.0.8 to 4.0.9 ([2a46e13](https://github.com/salesforcecli/plugin-data-seeding/commit/2a46e135dfc0c855fe457d8ae2dced67f2c8c3a6))
+
 ## [1.1.150](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.149...1.1.150) (2026-11-08)
 
 ### Bug Fixes
