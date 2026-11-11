@@ -157,7 +157,7 @@ export default class DataSeedingMigrate extends SfCommand<DataSeedingMigrateResu
 
         return buildResponse(pollResult);
       } catch (e) {
-        const err = SfError.wrap(e as Error);
+        const err = SfError.wrap(e);
 
         if (err.message.includes('The client has timed out')) {
           mso.updateData({ status: 'Client Timeout' });
