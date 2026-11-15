@@ -1,3 +1,9 @@
+## [1.1.152](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.151...1.1.152) (2026-11-15)
+
+### Bug Fixes
+
+- **deps:** bump js-yaml from 3.14.1 to 3.15.2 ([b6565ce](https://github.com/salesforcecli/plugin-data-seeding/commit/b6565ce09fb8c3c23f1fd094c0001b7c809a26df))
+
 ## [1.1.151](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.150...1.1.151) (2026-11-08)
 
 ### Bug Fixes
