@@ -1,3 +1,9 @@
+## [1.1.153](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.152...1.1.153) (2026-11-15)
+
+### Bug Fixes
+
+- **deps:** bump picomatch from 2.3.1 to 2.3.2 ([94f274a](https://github.com/salesforcecli/plugin-data-seeding/commit/94f274a15b60580e142608bf7d7b107bd73450d6))
+
 ## [1.1.152](https://github.com/salesforcecli/plugin-data-seeding/compare/1.1.151...1.1.152) (2026-11-15)
 
 ### Bug Fixes
